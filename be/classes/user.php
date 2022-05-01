@@ -66,6 +66,6 @@
                 $conn=null;
             }
             //file_put_contents("../log/dbtest.log",(new DateTime("now"))->format("Y-m-d H:i").$msg."\n",FILE_APPEND);
-            return json_encode($out);
+            return $out;
         }
     }
