@@ -22,9 +22,9 @@
     </head>
 
     <body>
-        <div class="container" id="menu">
+        <div  id="menu">
         </div>
-        <div class="container" id="main">
+        <div  id="main">
         </div>
     </body>
 

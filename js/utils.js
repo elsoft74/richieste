@@ -2,7 +2,7 @@ function setCookie(cname, cvalue) {
     const d = new Date();
     d.setTime(d.getTime() + (5 * 3600000)); // validità 5h
     let expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + ";" + expires + ";path=/";
+    document.cookie = cname + "="+cvalue+ ";" + expires + ";path=/";
 }
 
 function getCookie(cname) {
@@ -18,4 +18,26 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function deleteCookie(cname) {
+    if( getCookie(cname) ) {
+      document.cookie = cname + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT";
+    }
+  }
+
+function login(){
+    user={};
+    user.nome="Ivo";
+    user.cognome="Pugliese";
+    user.canEdit=true;
+    user.canAdd=true;
+    user.canDelete=true;
+    setCookie("loggeduser",JSON.stringify(user));
+    location.reload();
+}
+
+function logout(){
+    deleteCookie("loggeduser");
+    location.reload(); 
 }

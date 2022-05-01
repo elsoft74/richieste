@@ -1,4 +1,4 @@
-function showRequests(requests) {
+function showRequests(requests,user) {
     $("#main").html("");
     let table = $("<table>").addClass("table").attr("id", "requestslist");
     let thead = $("<thead>").addClass("thead-light");
@@ -20,6 +20,8 @@ function showRequests(requests) {
     el = $("<th>").attr("scope", "col").text("Fase");
     tr.append(el);
     el = $("<th>").attr("scope", "col").text("Motivo");
+    tr.append(el);
+    el = $("<th>").attr("scope", "col").text("Note");
     tr.append(el);
     el = $("<th>").attr("scope", "col").text("Creata");
     tr.append(el);
@@ -57,18 +59,30 @@ function showRequests(requests) {
         tr.append(el);
         el = $("<td>").text(element.motivo);
         tr.append(el);
-        el = $("<td>").text(element.Created);
+        el = $("<td>").html('<span class="material-symbols-outlined">notes</span>').attr({"onClick":"alert('Show note')","value":element.note}).css({"cursor":"pointer"});
         tr.append(el);
-        el = $("<td>").text(element.CreatedByNomeCognome);
+        el = $("<td>").text(element.created);
+        tr.append(el);
+        el = $("<td>").text(element.createdByNomeCognome);
         tr.append(el);
         el = $("<td>").text(element.lastUpdate);
         tr.append(el);
         el = $("<td>").text(element.lastUpdateByNomeCognome);
         tr.append(el);
-        el = $("<td>").text("E");
-        tr.append(el);
-        el = $("<td>").text("D");
-        tr.append(el);
+        if(user.canEdit){
+            el = $("<td>").html('<span class="material-symbols-outlined">edit</span>').attr({"onClick":"alert('Edit row')"}).css({"cursor":"pointer"});
+            tr.append(el);
+        } else {
+            el = $("<td>").text();
+            tr.append(el);
+        }
+        if(user.canEdit){
+            el = $("<td>").html('<span class="material-symbols-outlined">delete_forever</span>').attr({"onClick":"alert('Delete row')"}).css({"cursor":"pointer"});
+            tr.append(el);
+        } else {
+            el = $("<td>").text();
+            tr.append(el);
+        }
         tbody.append(tr);
     });
     table.append(tbody);
