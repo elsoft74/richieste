@@ -89,3 +89,17 @@ function showRequests(requests,user) {
     $("#main").append(table);
 }
 
+function inserisci(){
+    let richiesta={};
+    richiesta.nome=$("#nome").val();
+    richiesta.cognome=$("#cognome").val();
+    richiesta.codiceFiscale=$("#codiceFiscale").val();
+    richiesta.email=$("#email").val();
+    richiesta.numero=$("#numero").val();
+    richiesta.data=$("#data").val();
+    richiesta.fase=$("#fase").val();
+    richiesta.motivo=$("#motivo").val();
+    richiesta.note=$("#note").val();
+    console.log(richiesta);
+}
+

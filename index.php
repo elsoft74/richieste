@@ -4,7 +4,10 @@
         <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3">
         <script src="bootstrap/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
         <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link rel="stylesheet" href="datepicker/css/bootstrap-datepicker3.standalone.min.css">
         <script src="js/jquery-3.6.0.min.js"></script>
+        <script src="datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="datepicker/locales/bootstrap-datepicker.it.min.js"></script>
         <script src="js/utils.js"></script>
         <script src="js/requests.js"></script>
         <script src="js/page.js"></script>
