@@ -11,6 +11,7 @@
         <script src="js/utils.js"></script>
         <script src="js/requests.js"></script>
         <script src="js/page.js"></script>
+        <script src="js/fasi.js"></script>
         <script>
             $(document).ready(function() {
                 let lu=getCookie("loggeduser");

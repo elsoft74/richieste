@@ -41,3 +41,11 @@ function logout(){
     deleteCookie("loggeduser");
     location.reload(); 
 }
+
+function calcolaGiorni(data){
+    let tmpDate=new Date(data);
+    let d1=new Date(tmpDate.getFullYear()+"-"+(1+tmpDate.getMonth())+"-"+tmpDate.getDate()+" 00:00:00");
+    tmpDate=new Date();
+    let d2=new Date(tmpDate.getFullYear()+"-"+(1+tmpDate.getMonth())+"-"+tmpDate.getDate()+" 00:00:00");
+    return (d2-d1)/(24*60*60*1000);
+}

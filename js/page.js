@@ -80,94 +80,116 @@ function showLogin() {
 
 function showInsertForm() {
 
-    let div = $("<div>").addClass("row");
-    let div1 = $("<div>").addClass("col-2");
-    let div2 = $("<div>").addClass("col-8");
-    let div3 = $("<div>").addClass("col-2");
-    let form = $("<form>");
+    let fasi = null;
+    let xhr = new XMLHttpRequest();
+    let url = "be/getfasi.php";
+    // let send = "action=getDrugs";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    let ready = false;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let result = JSON.parse(xhr.responseText);
+            if (result.status == "OK") {
+                fasi = result.data;
+                let div = $("<div>").addClass("row");
+                let div1 = $("<div>").addClass("col-2");
+                let div2 = $("<div>").addClass("col-8");
+                let div3 = $("<div>").addClass("col-2");
+                let form = $("<form>");
 
-    let divFormGroup = $("<div>").addClass("form-group");
-    let el = $("<label>").attr({ "for": "nome" }).text("Nome");
-    divFormGroup.append(el);
-    el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "nome", "placeholder": "Nome" });
-    divFormGroup.append(el);
-    //form.append(divFormGroup);
+                let divFormGroup = $("<div>").addClass("form-group");
+                let el = $("<label>").attr({ "for": "nome" }).text("Nome");
+                divFormGroup.append(el);
+                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "nome", "placeholder": "Nome" });
+                divFormGroup.append(el);
+                //form.append(divFormGroup);
 
-    //divFormGroup=$("<div>").addClass("form-group");
-    el = $("<label>").attr({ "for": "cognome" }).text("Cognome");
-    divFormGroup.append(el);
-    el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "cognome", "placeholder": "Cognome" });
-    divFormGroup.append(el);
-    //form.append(divFormGroup);
+                //divFormGroup=$("<div>").addClass("form-group");
+                el = $("<label>").attr({ "for": "cognome" }).text("Cognome");
+                divFormGroup.append(el);
+                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "cognome", "placeholder": "Cognome" });
+                divFormGroup.append(el);
+                //form.append(divFormGroup);
 
-    //divFormGroup=$("<div>").addClass("form-group");
-    el = $("<label>").attr({ "for": "codiceFiscale" }).text("Codice Fiscale");
-    divFormGroup.append(el);
-    el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "codiceFiscale", "placeholder": "Codice Fiscale" });
-    divFormGroup.append(el);
-    form.append(divFormGroup);
+                //divFormGroup=$("<div>").addClass("form-group");
+                el = $("<label>").attr({ "for": "codiceFiscale" }).text("Codice Fiscale");
+                divFormGroup.append(el);
+                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "codiceFiscale", "placeholder": "Codice Fiscale" });
+                divFormGroup.append(el);
+                form.append(divFormGroup);
 
-    divFormGroup = $("<div>").addClass("form-group");
-    el = $("<label>").attr({ "for": "email" }).text("e-mail");
-    divFormGroup.append(el);
-    el = $("<input>").addClass("form-control").attr({ "type": "email", "id": "email", "placeholder": "e-mail" });
-    divFormGroup.append(el);
-    //form.append(divFormGroup);
+                divFormGroup = $("<div>").addClass("form-group");
+                el = $("<label>").attr({ "for": "email" }).text("e-mail");
+                divFormGroup.append(el);
+                el = $("<input>").addClass("form-control").attr({ "type": "email", "id": "email", "placeholder": "e-mail" });
+                divFormGroup.append(el);
+                //form.append(divFormGroup);
 
-    //divFormGroup=$("<div>").addClass("form-group");
-    el = $("<label>").attr({ "for": "numero" }).text("Numero");
-    divFormGroup.append(el);
-    el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "numero", "placeholder": "Numero" });
-    divFormGroup.append(el);
-    //form.append(divFormGroup);
+                //divFormGroup=$("<div>").addClass("form-group");
+                el = $("<label>").attr({ "for": "numero" }).text("Numero");
+                divFormGroup.append(el);
+                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "numero", "placeholder": "Numero" });
+                divFormGroup.append(el);
+                //form.append(divFormGroup);
 
-    //divFormGroup=$("<div>").addClass("form-group");
+                //divFormGroup=$("<div>").addClass("form-group");
 
-    let div4 = $("<div>").addClass("input-group").addClass("date").attr({ "data-provide": "datepicker" });
-    el = $("<label>").attr({ "for": "data" }).text("Data");
-    div4.append(el);
-    el = $("<input>").addClass("form-control").addClass("datepicker").attr({ "type": "text", "id": "data" });
-    div4.append(el);
-    let div5 = $("<div>").addClass("input-group-addon");
-    el = $("<span>").addClass("glyphicon glyphicon-th");
-    div5.append(el);
-    div4.append(div5);
-    divFormGroup.append(div4);
-    form.append(divFormGroup);
+                let div4 = $("<div>").addClass("input-group").addClass("date").attr({ "data-provide": "datepicker" });
+                el = $("<label>").attr({ "for": "data" }).text("Data");
+                div4.append(el);
+                el = $("<input>").addClass("form-control").addClass("datepicker").attr({ "type": "text", "id": "data" });
+                div4.append(el);
+                let div5 = $("<div>").addClass("input-group-addon");
+                el = $("<span>").addClass("glyphicon glyphicon-th");
+                div5.append(el);
+                div4.append(div5);
+                divFormGroup.append(div4);
+                form.append(divFormGroup);
 
-    divFormGroup = $("<div>").addClass("form-group");
-    el = $("<label>").attr({ "for": "fase" }).text("Fase");
-    divFormGroup.append(el);
-    el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "email", "placeholder": "Fase" });
-    divFormGroup.append(el);
-    //form.append(divFormGroup);
+                divFormGroup = $("<div>").addClass("form-group");
+                el = $("<label>").attr({ "for": "fase" }).text("Fase");
+                divFormGroup.append(el);
+                el = $("<select>").addClass("form-control").attr({ "id": "fase" });
+                fasi.forEach(element => {
+                    let option = $("<option>").attr({ "value": element.id }).text(element.descrizione);
+                    el.append(option);
+                });
+                divFormGroup.append(el);
+                //form.append(divFormGroup);
 
-    //divFormGroup=$("<div>").addClass("form-group");
-    el = $("<label>").attr({ "for": "motivo" }).text("Motivo");
-    divFormGroup.append(el);
-    el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "motivo", "placeholder": "Motivo" });
-    divFormGroup.append(el);
-    form.append(divFormGroup);
+                //divFormGroup=$("<div>").addClass("form-group");
+                el = $("<label>").attr({ "for": "motivo" }).text("Motivo");
+                divFormGroup.append(el);
+                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "motivo", "placeholder": "Motivo" });
+                divFormGroup.append(el);
+                form.append(divFormGroup);
 
-    divFormGroup = $("<div>").addClass("form-group");
-    el = $("<label>").attr({ "for": "note" }).text("Note");
-    divFormGroup.append(el);
-    el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "note", "placeholder": "Note" });
-    divFormGroup.append(el);
-    form.append(divFormGroup);
+                divFormGroup = $("<div>").addClass("form-group");
+                el = $("<label>").attr({ "for": "note" }).text("Note");
+                divFormGroup.append(el);
+                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "note", "placeholder": "Note" });
+                divFormGroup.append(el);
+                form.append(divFormGroup);
 
-    el = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").text("Inserisci").attr({ "onClick": "inserisci()" });
-    form.append(el);
-    div2.append(form);
-    div.append(div1);
-    div.append(div2);
-    div.append(div3);
-    $("#main").html("");
-    $("#main").append(div);
-    $(".datepicker").datepicker({
-        todayBtn: "linked",
-        language: "it",
-        calendarWeeks: true,
-        todayHighlight: true
-    });
+                el = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").text("Inserisci").attr({ "onClick": "inserisci()" });
+                form.append(el);
+                div2.append(form);
+                div.append(div1);
+                div.append(div2);
+                div.append(div3);
+                $("#main").html("");
+                $("#main").append(div);
+                $(".datepicker").datepicker({
+                    todayBtn: "linked",
+                    language: "it",
+                    calendarWeeks: true,
+                    todayHighlight: true
+                });
+            } else {
+                alert("C'è un problema con il recupero dell'elenco delle fasi.")
+            }
+        } 
+    }
+    xhr.send();
 }

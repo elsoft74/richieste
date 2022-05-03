@@ -17,6 +17,8 @@ function showRequests(requests,user) {
     tr.append(el);
     el = $("<th>").attr("scope", "col").text("Data");
     tr.append(el);
+    el = $("<th>").attr("scope", "col").text("Giorni");
+    tr.append(el);
     el = $("<th>").attr("scope", "col").text("Fase");
     tr.append(el);
     el = $("<th>").attr("scope", "col").text("Motivo");
@@ -54,6 +56,8 @@ function showRequests(requests,user) {
         el = $("<td>").text(element.numero);
         tr.append(el);
         el = $("<td>").text(element.dataRic);
+        tr.append(el);
+        el = $("<td>").text(10-calcolaGiorni(element.dataRic));
         tr.append(el);
         el = $("<td>").text(element.fase);
         tr.append(el);
