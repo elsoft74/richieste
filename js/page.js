@@ -101,42 +101,42 @@ function showInsertForm() {
                 let divFormGroup = $("<div>").addClass("form-group");
                 let el = $("<label>").attr({ "for": "nome" }).text("Nome");
                 divFormGroup.append(el);
-                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "nome", "placeholder": "Nome" });
+                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "nome"});
                 divFormGroup.append(el);
                 //form.append(divFormGroup);
 
                 //divFormGroup=$("<div>").addClass("form-group");
                 el = $("<label>").attr({ "for": "cognome" }).text("Cognome");
                 divFormGroup.append(el);
-                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "cognome", "placeholder": "Cognome" });
+                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "cognome"});
                 divFormGroup.append(el);
                 //form.append(divFormGroup);
 
                 //divFormGroup=$("<div>").addClass("form-group");
                 el = $("<label>").attr({ "for": "codiceFiscale" }).text("Codice Fiscale");
                 divFormGroup.append(el);
-                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "codiceFiscale", "placeholder": "Codice Fiscale" });
+                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "codiceFiscale"});
                 divFormGroup.append(el);
                 form.append(divFormGroup);
 
                 divFormGroup = $("<div>").addClass("form-group");
                 el = $("<label>").attr({ "for": "email" }).text("e-mail");
                 divFormGroup.append(el);
-                el = $("<input>").addClass("form-control").attr({ "type": "email", "id": "email", "placeholder": "e-mail" });
+                el = $("<input>").addClass("form-control").attr({ "type": "email", "id": "email"});
                 divFormGroup.append(el);
                 //form.append(divFormGroup);
 
                 //divFormGroup=$("<div>").addClass("form-group");
                 el = $("<label>").attr({ "for": "numero" }).text("Numero");
                 divFormGroup.append(el);
-                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "numero", "placeholder": "Numero" });
+                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "numero"});
                 divFormGroup.append(el);
                 //form.append(divFormGroup);
 
                 //divFormGroup=$("<div>").addClass("form-group");
 
-                let div4 = $("<div>").addClass("input-group").addClass("date").attr({ "data-provide": "datepicker" });
-                el = $("<label>").attr({ "for": "data" }).text("Data");
+                let div4 = $("<div>").addClass("col").addClass("date").attr({ "data-provide": "datepicker" });
+                el = $("<label>").text("Data Ricezione");
                 div4.append(el);
                 el = $("<input>").addClass("form-control").addClass("datepicker").attr({ "type": "text", "id": "data" });
                 div4.append(el);
@@ -161,19 +161,31 @@ function showInsertForm() {
                 //divFormGroup=$("<div>").addClass("form-group");
                 el = $("<label>").attr({ "for": "motivo" }).text("Motivo");
                 divFormGroup.append(el);
-                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "motivo", "placeholder": "Motivo" });
+                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "motivo"});
                 divFormGroup.append(el);
                 form.append(divFormGroup);
 
                 divFormGroup = $("<div>").addClass("form-group");
                 el = $("<label>").attr({ "for": "note" }).text("Note");
                 divFormGroup.append(el);
-                el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "note", "placeholder": "Note" });
+                el = $("<textarea>").addClass("form-control").attr({ "type": "text", "id": "note"});
                 divFormGroup.append(el);
                 form.append(divFormGroup);
 
+                div4=$("<div>").addClass("row").css({"margin-top"});
+                div5=$("<div>").addClass("col-4");
+
                 el = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").text("Inserisci").attr({ "onClick": "inserisci()" });
-                form.append(el);
+                div5.append(el);
+                div4.append(div5);
+                div5=$("<div>").addClass("col-4");
+                div4.append(div5);
+                div5=$("<div>").addClass("col-4");
+                el = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").text("Annulla");
+                div5.append(el);
+                div4.append(div5);
+                form.append(div4);
+
                 div2.append(form);
                 div.append(div1);
                 div.append(div2);
