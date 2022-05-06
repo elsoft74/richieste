@@ -26,21 +26,6 @@ function deleteCookie(cname) {
     }
   }
 
-function login(){
-    user={};
-    user.nome="Ivo";
-    user.cognome="Pugliese";
-    user.canEdit=true;
-    user.canAdd=true;
-    user.canDelete=true;
-    setCookie("loggeduser",JSON.stringify(user));
-    location.reload();
-}
-
-function logout(){
-    deleteCookie("loggeduser");
-    location.reload(); 
-}
 
 function calcolaGiorni(data){
     let tmpDate=new Date(data);
