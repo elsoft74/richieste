@@ -17,20 +17,22 @@
     <script src="js/insert.js"></script>
     <script>
         $(document).ready(function() {
-            buildInsertForm();
             buildLogin();
-            buildEditRow();
-            let lu = localStorage.getItem("loggeduser");
+            lu = localStorage.getItem("loggeduser");
             if (lu != null) {
                 lu = JSON.parse(lu);
-                showMenu(lu);
-                showMain(lu);
+                loadData();
             } else {
                 showLogin();
             }
 
-
         });
+        $(window).on('dataLoaded', function() {
+            buildInsertForm();
+            buildEditRow();
+            showMenu(lu);
+            showRequests(richieste, lu);
+        })
     </script>
 </head>
 

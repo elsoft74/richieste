@@ -1,11 +1,11 @@
-function showRequests(requests, user) {
+function showRequests(richieste, user) {
     $("#main").html("");
     let table = buildTable();
 
     let tbody = $("<tbody>");
-    requests.forEach(element => {
+    richieste.forEach(element => {
         tr = $("<tr>");
-        el = $("<th>").attr({ "scope": "row", "id": element.id }).text(element.id);
+        el = $("<th>").addClass("element-data").attr({ "scope": "row"/*,"data":JSON.stringify(element)*/ }).text(element.id);
         tr.append(el);
         el = $("<td>").text(element.nome);
         tr.append(el);
@@ -25,7 +25,7 @@ function showRequests(requests, user) {
         tr.append(el);
         el = $("<td>").text(element.motivo);
         tr.append(el);
-        el = $("<td>").html('<span class="material-symbols-outlined">notes</span>').attr({ "onClick": "alert('Show note')", "value": element.note }).css({ "cursor": "pointer" });
+        el = $("<td>").html('<span class="material-symbols-outlined">notes</span>').attr({ "onClick": "alert('"+element.note+"')", "value": element.note }).css({ "cursor": "pointer" });
         tr.append(el);
         el = $("<td>").text(element.created);
         tr.append(el);
@@ -36,7 +36,9 @@ function showRequests(requests, user) {
         el = $("<td>").text(element.lastUpdateByNomeCognome);
         tr.append(el);
         if (user.canEdit) {
-            el = $("<td>").html('<span class="material-symbols-outlined">edit</span>').attr({ "onClick": "alert('Edit row')" }).css({ "cursor": "pointer" });
+            el = $("<td>").html('<span class="material-symbols-outlined">edit</span>').css({ "cursor": "pointer" }).click(function(){
+                showElementUpdate(element);
+            });
             tr.append(el);
         } else {
             el = $("<td>").text();
@@ -140,31 +142,31 @@ function buildEditRow() {
     el.append(el1);
     tr.append(el);
     el = $("<td>");
-    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editNome"});
+    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editCognome"});
     el.append(el1);
     tr.append(el);
     el = $("<td>");
-    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editNome"});
+    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editCodiceFiscale"});
     el.append(el1);
     tr.append(el);
     el = $("<td>");
-    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editNome"});
+    el1=$("<input>").addClass("edit-row-element").attr({"type":"email","id":"editEmail"});
     el.append(el1);
     tr.append(el);
     el = $("<td>");
-    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editNome"});
+    el1=$("<input>").addClass("edit-row-element").attr({"type":"number","id":"editNumero"});
     el.append(el1);
     tr.append(el);
     el = $("<td>");
-    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editNome"});
+    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editData"});
     el.append(el1);
     tr.append(el);
     el = $("<td>");
-    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editNome"});
+    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editFase"});
     el.append(el1);
     tr.append(el);
     el = $("<td>");
-    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editNome"});
+    el1=$("<input>").addClass("edit-row-element").attr({"type":"text","id":"editMotivo"});
     el.append(el1);
     tr.append(el);
     el = $("<td>");
@@ -194,5 +196,38 @@ function inserisci() {
     richiesta.motivo = $("#motivo").val();
     richiesta.note = $("#note").val();
     console.log(richiesta);
+}
+
+function showElementUpdate(element){
+    $("#editId").attr({"elementId":element.id});
+    $("#editNome").val(element.nome);
+    $("#editCognome").val(element.cognome);
+    $("#editCodiceFiscale").val(element.codiceFiscale);
+    $("#editEmail").val(element.email);
+    $("#editNumero").val(element.numero);
+    $("#editData").val(element.data);
+    $("#editFase").val(element.fase);
+    $("#editMotivo").val(element.motivo);
+    $("#editNote").val(element.note);
+}
+
+function readRequests(toBeCompleted,richieste){
+    let xhr = new XMLHttpRequest();
+        let url = "be/getrequests.php";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        let ready = false;
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                result = JSON.parse(xhr.responseText);
+                if (result.status == "OK") {
+                    richieste=result.data;
+                    toBeCompleted.richieste=true;
+                } else {
+                    alert("Impossibile recuperare l'elenco delle richieste.");
+                }
+            }
+        }
+        xhr.send();
 }
 

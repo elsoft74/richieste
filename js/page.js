@@ -26,26 +26,26 @@ function showMenu(user) {
     }
 }
 
-function showMain(user) {
-    if (user != null) {
-        let xhr = new XMLHttpRequest();
-        let url = "be/getrequests.php";
-        // let send = "action=getDrugs";
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        let ready = false;
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                result = JSON.parse(xhr.responseText);
-                if (result.status == "OK") {
-                    showRequests(result.data, user);
-                } else {
-                    alert("Impossibile recuperare l'elenco delle richieste.");
-                }
-            }
-        }
-        xhr.send();
-    } else {
-        showLogin();
-    }
-}
+// function showMain(user) {
+//     if (user != null) {
+//         let xhr = new XMLHttpRequest();
+//         let url = "be/getrequests.php";
+//         // let send = "action=getDrugs";
+//         xhr.open("POST", url, true);
+//         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//         let ready = false;
+//         xhr.onreadystatechange = function () {
+//             if (xhr.readyState === 4 && xhr.status === 200) {
+//                 result = JSON.parse(xhr.responseText);
+//                 if (result.status == "OK") {
+//                     showRequests(result.data, user);
+//                 } else {
+//                     alert("Impossibile recuperare l'elenco delle richieste.");
+//                 }
+//             }
+//         }
+//         xhr.send();
+//     } else {
+//         showLogin();
+//     }
+// }
