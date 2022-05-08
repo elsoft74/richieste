@@ -28,8 +28,8 @@
 
         });
         $(window).on('dataLoaded', function() {
-            buildInsertForm();
-            buildEditRow();
+            buildInsertForm("insert");
+            buildInsertForm("editRow");
             showMenu(lu);
             showRequests(richieste, lu);
         })
@@ -37,16 +37,18 @@
 </head>
 
 <body>
-    <div id="menu">
-    </div>
-    <div id="main">
-    </div>
-    <div id="insert">
-    </div>
-    <div id="login">
-    </div>
-    <div id="editRow">
-    </div>
+    <!-- <div class="container"> -->
+        <div id="menu">
+        </div>
+        <div id="main" class="sections">
+        </div>
+        <div id="insert" class="sections">
+        </div>
+        <div id="login" class="sections">
+        </div>
+        <div id="editRow" class="sections">
+        </div>
+    <!-- </div> -->
 </body>
 
 </html>

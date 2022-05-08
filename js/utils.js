@@ -51,7 +51,21 @@ function loadData() {
     };
     fasi = null;
     richieste = [];
-    getFasi(toBeCompleted, fasi);
-    readRequests(toBeCompleted, richieste);
+    getFasi(toBeCompleted);
+    readRequests(toBeCompleted);
     setTimeout(checkIfComplete, 1000);
+}
+
+function formattaData(data, lung) { // lung se impostato a true fa ottenere una data compresa dell'ora
+    let out = data;
+    if (data != null) {
+        let dd = data.substr(8, 2);
+        let mm = data.substr(5, 2);
+        let yyyy = data.substr(0, 4)
+        out = dd + "-" + mm + "-" + yyyy;
+        if (lung && data.length > 10) {
+            out += data.substr(10);
+        }
+    }
+    return out;
 }

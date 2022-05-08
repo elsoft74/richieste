@@ -1,4 +1,4 @@
-function getFasi(toBeCompleted, fasi) {
+function getFasi(toBeCompleted) {
     let xhr = new XMLHttpRequest();
     let url = "be/getfasi.php";
     xhr.open("POST", url, true);
