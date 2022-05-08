@@ -1,27 +1,28 @@
-function login(){
-    user={};
-    user.nome="Ivo";
-    user.cognome="Pugliese";
-    user.canEdit=true;
-    user.canAdd=true;
-    user.canDelete=true;
-    localStorage.setItem("loggeduser",JSON.stringify(user));
+function login() {
+    user = {};
+    user.id = 1;
+    user.nome = "Ivo";
+    user.cognome = "Pugliese";
+    user.canEdit = true;
+    user.canAdd = true;
+    user.canDelete = true;
+    localStorage.setItem("loggeduser", JSON.stringify(user));
     hideLogin();
     location.reload();
 }
 
-function logout(){
+function logout() {
     localStorage.removeItem("loggeduser");
     $("#username").val("");
     $("#password").val("");
-    location.reload(); 
+    location.reload();
 }
 
-function showLogin(){
+function showLogin() {
     $("#login").show();
 }
 
-function hideLogin(){
+function hideLogin() {
     $("#login").show();
 }
 
@@ -34,13 +35,13 @@ function buildLogin() {
     let divFormGroup = $("<div>").addClass("form-group");
     let el = $("<label>").attr({ "for": "username" }).text("Nome utente");
     divFormGroup.append(el);
-    el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "username", "placeholder": "nomeutente" });
+    el = $("<input>").addClass("form-control").attr({ "type": "text", "id": "username"});
     divFormGroup.append(el);
     form.append(divFormGroup);
     divFormGroup = $("<div>").addClass("form-group");
     el = $("<label>").attr({ "for": "password" }).text("Password");
     divFormGroup.append(el);
-    el = $("<input>").addClass("form-control").attr({ "type": "password", "id": "password", "placeholder": "Password" });
+    el = $("<input>").addClass("form-control").attr({ "type": "password", "id": "password"});
     divFormGroup.append(el);
     form.append(divFormGroup);
     el = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").text("Login").attr({ "onClick": "login()" });

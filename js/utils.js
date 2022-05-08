@@ -37,7 +37,7 @@ function calcolaGiorni(data) {
 
 function checkIfComplete() {
     if (toBeCompleted.fasi && toBeCompleted.richieste) {
-        var evt = new CustomEvent("dataLoaded");
+        var evt = new CustomEvent("allDataLoaded");
         window.dispatchEvent(evt);
     } else {
         setTimeout(checkIfComplete, 1000);

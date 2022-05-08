@@ -40,7 +40,6 @@ function buildInsertForm(target) {
             break;
     }
 
-    // let fasi = JSON.parse(localStorage.getItem("fasi"));
     if (canBuild) {
         let div = $("<div>").addClass("row");
         let div1 = $("<div>").addClass("col-2");
@@ -55,16 +54,12 @@ function buildInsertForm(target) {
         divFormGroup.append(el);
         el = $("<input>").addClass("form-control").attr({ "type": "text", "id": attrs.nome });
         divFormGroup.append(el);
-        //form.append(divFormGroup);
-
-        //divFormGroup=$("<div>").addClass("form-group");
+    
         el = $("<label>").attr({ "for": "cognome" }).text("Cognome");
         divFormGroup.append(el);
         el = $("<input>").addClass("form-control").attr({ "type": "text", "id": attrs.cognome });
         divFormGroup.append(el);
-        //form.append(divFormGroup);
-
-        //divFormGroup=$("<div>").addClass("form-group");
+    
         el = $("<label>").attr({ "for": "codiceFiscale" }).text("Codice Fiscale");
         divFormGroup.append(el);
         el = $("<input>").addClass("form-control").attr({ "type": "text", "id": attrs.codiceFiscale });
@@ -76,22 +71,15 @@ function buildInsertForm(target) {
         divFormGroup.append(el);
         el = $("<input>").addClass("form-control").attr({ "type": "email", "id": attrs.email });
         divFormGroup.append(el);
-        //form.append(divFormGroup);
-
-        //divFormGroup=$("<div>").addClass("form-group");
+    
         el = $("<label>").attr({ "for": "numero" }).text("Numero");
         divFormGroup.append(el);
-        el = $("<input>").addClass("form-control").attr({ "type": "number", "id": attrs.numero });
+        el = $("<input>").addClass("form-control").attr({ "type": "text", "id": attrs.numero });
         divFormGroup.append(el);
-        //form.append(divFormGroup);
-
-        //divFormGroup=$("<div>").addClass("form-group");
-
-        // let div4 = $("<div>").addClass("col").addClass("date").attr({ "data-provide": "datepicker" });
+    
         let div4 = $("<div>").addClass("col").addClass("date");
         el = $("<label>").text("Data Ricezione");
         div4.append(el);
-        // el = $("<input>").addClass("form-control").addClass("datepicker").attr({ "type": "text", "id": "data" });
         el = $("<input>").addClass("form-control").attr({ "type": "date", "id": attrs.data });
         div4.append(el);
         let div5 = $("<div>").addClass("input-group-addon");
@@ -110,9 +98,7 @@ function buildInsertForm(target) {
             el.append(option);
         });
         divFormGroup.append(el);
-        //form.append(divFormGroup);
-
-        //divFormGroup=$("<div>").addClass("form-group");
+    
         el = $("<label>").attr({ "for": "motivo" }).text("Motivo");
         divFormGroup.append(el);
         el = $("<input>").addClass("form-control").attr({ "type": "text", "id": attrs.motivo });
@@ -147,12 +133,6 @@ function buildInsertForm(target) {
         $(tar).html("");
         $(tar).append(div);
         fun2;
-        // $(".datepicker").datepicker({
-        //     todayBtn: "linked",
-        //     language: "it",
-        //     calendarWeeks: true,
-        //     todayHighlight: true
-        // });
     }
 }
 

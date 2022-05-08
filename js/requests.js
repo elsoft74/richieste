@@ -123,22 +123,38 @@ function aggiorna() {
     richiesta.codiceFiscale = $("#editCodiceFiscale").val();
     richiesta.email = $("#editEmail").val();
     richiesta.numero = $("#editNumero").val();
-    richiesta.data = $("#editData").val();
+    richiesta.dataRic = $("#editData").val();
     richiesta.fase = $("#editFase").val();
     richiesta.motivo = $("#editMotivo").val();
     richiesta.note = $("#editNote").val();
-    console.log(richiesta);
+    richiesta.lastUpdateBy = ""+lu.id;
+    let xhr = new XMLHttpRequest();
+        let url = "be/updateRequest.php";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                result = JSON.parse(xhr.responseText);
+                if (result.status == "OK") {
+                    alert("Richiesta aggiornata.");
+                    location.reload();
+                } else {
+                    alert("Impossibile aggiornare la richiesta.");
+                }
+            }
+        } 
+        xhr.send("richiesta="+JSON.stringify(richiesta));
 }
 
 function showElementUpdate(element){
     showEdit();
-    $("#editId").attr({"elementId":element.id});
+    $("#editId").val(element.id);
     $("#editNome").val(element.nome);
     $("#editCognome").val(element.cognome);
     $("#editCodiceFiscale").val(element.codiceFiscale);
     $("#editEmail").val(element.email);
     $("#editNumero").val(element.numero);
-    $("#editData").val(formattaData(element.dataRic,false));
+    $("#editData").val(((new Date(element.dataRic)).toISOString()).substr(0,10))
     $("#editFase").val(element.fase);
     $("#editMotivo").val(element.motivo);
     $("#editNote").val(element.note);
