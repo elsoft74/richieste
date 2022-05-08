@@ -34,7 +34,6 @@
 </head>
 
 <body>
-    <div class="container">
         <div id="menu">
         </div>
         <div id="main" class="sections">
@@ -45,7 +44,6 @@
         </div>
         <div id="editRow" class="sections">
         </div>
-    </div>
 </body>
 
 </html>
