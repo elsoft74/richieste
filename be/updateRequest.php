@@ -10,7 +10,8 @@
     include_once("classes/richiesta.php");
     try {
         $tmp = json_decode($_POST['richiesta']);
-        if ($tmp != null/* && $user != null*/) {
+        $out->in=print_r($tmp,true);
+        if (false/*$tmp != null/* && $user != null*/) {
             $ric = new Richiesta();
             $ric->setId($tmp->id);
             $ric->getDetails();
@@ -25,9 +26,10 @@
             $ric->setNote($tmp->note);
             $ric->setLastUpdate((new DateTime())->format('Y-m-d H:i:s'));
             $ric->setLastUpdateBy($ric->lastUpdateBy);
-            $out=$ric->update();
+            
+            //$out=$ric->update();
             // $out->status="OK";
-            // $out->debug=print_r($ric,true);
+            $out->debug=print_r($ric,true);
 
         }
     } catch (Exception $ex) {

@@ -347,6 +347,7 @@ class Richiesta
     {
         $out = new stdClass();
         $out->status = "KO";
+        file_put_contents("log/richiesta-in.log",(new DateTime("now"))->format("Y-m-d H:i").print_r($this)."\n",FILE_APPEND);
         try {
             if ($this->getId() != null) {
                 $conn = DB::conn();
@@ -405,7 +406,7 @@ class Richiesta
             $conn = null;
             $out->error = $ex->getMessage();
         }
-        //file_put_contents("../log/dbtest.log",(new DateTime("now"))->format("Y-m-d H:i").$msg."\n",FILE_APPEND);
+        file_put_contents("log/richiesta-out.log",(new DateTime("now"))->format("Y-m-d H:i").print_r($out)."\n",FILE_APPEND);
         return $out;
     }
 }

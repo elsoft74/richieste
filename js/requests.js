@@ -1,59 +1,100 @@
 function showRequests(richieste, user) {
     $("#main").html("");
-    let table = buildTable();
 
-    let tbody = $("<tbody>");
-    richieste.forEach(element => {
-        tr = $("<tr>");
-        el = $("<th>").addClass("element-data").attr({ "scope": "row"/*,"data":JSON.stringify(element)*/ }).text(element.id);
-        tr.append(el);
-        el = $("<td>").text(element.nome);
-        tr.append(el);
-        el = $("<td>").text(element.cognome);
-        tr.append(el);
-        el = $("<td>").text(element.codiceFiscale);
-        tr.append(el);
-        el = $("<td>").text(element.email);
-        tr.append(el);
-        el = $("<td>").text(element.numero);
-        tr.append(el);
-        el = $("<td>").text(formattaData(element.dataRic,false));
-        tr.append(el);
-        el = $("<td>").text(10 - calcolaGiorni(element.dataRic));
-        tr.append(el);
-        el = $("<td>").text(element.fase);
-        tr.append(el);
-        el = $("<td>").text(element.motivo);
-        tr.append(el);
-        el = $("<td>").html('<span class="material-symbols-outlined">notes</span>').attr({ "onClick": "alert('"+element.note+"')", "value": element.note }).css({ "cursor": "pointer" });
-        tr.append(el);
-        el = $("<td>").text(formattaData(element.created,true));
-        tr.append(el);
-        el = $("<td>").text(element.createdByNomeCognome);
-        tr.append(el);
-        el = $("<td>").text(formattaData(element.lastUpdate,true));
-        tr.append(el);
-        el = $("<td>").text(element.lastUpdateByNomeCognome);
-        tr.append(el);
-        if (user.canEdit) {
-            el = $("<td>").html('<span class="material-symbols-outlined">edit</span>').css({ "cursor": "pointer" }).click(function(){
-                showElementUpdate(element);
-            });
-            tr.append(el);
-        } else {
-            el = $("<td>").text();
-            tr.append(el);
-        }
-        if (user.canEdit) {
-            el = $("<td>").html('<span class="material-symbols-outlined">delete_forever</span>').attr({ "onClick": "alert('Delete row')" }).css({ "cursor": "pointer" });
-            tr.append(el);
-        } else {
-            el = $("<td>").text();
-            tr.append(el);
-        }
-        tbody.append(tr);
+    var table = new Tabulator("#richieste-table", {
+        data:richieste,           //load row data from array
+        layout:"fitColumns",      //fit columns to width of table
+        responsiveLayout:"hide",  //hide columns that dont fit on the table
+        tooltips:true,            //show tool tips on cells
+        addRowPos:"top",          //when adding a new row, add it to the top of the table
+        history:true,             //allow undo and redo actions on the table
+        pagination:"local",       //paginate the data
+        paginationSize:7,         //allow 7 rows per page of data
+        paginationCounter:"rows", //display count of paginated rows in footer
+        movableColumns:true,      //allow column order to be changed
+        initialSort:[             //set the initial sort order of the data
+            {column:"dataRic", dir:"asc"},
+        ],
+        columns:[                 //define the table columns
+        {title:"#", field:"id", editor:false},
+        {title:"Nome", field:"nome", editor:false},
+        {title:"Cognome", field:"cognome", editor:false},
+        {title:"Codice Fiscale", field:"CodiceFiscale", editor:false},
+        {title:"e-mail", field:"email", editor:false},
+        {title:"Numero Richiesta", field:"numero", editor:false},
+        {title:"Data Ricezione", field:"dataRic", editor:false, sorter:"date"},
+        {title:"Giorni", field:"id", editor:false},
+        {title:"Fase", field:"fase", editor:false},
+        {title:"Motivo", field:"motivo", editor:false},
+        {title:"Note", field:"id", editor:false},
+        {title:"Creata il", field:"created", editor:false},
+        {title:"Creata da", field:"createdByNomeCognome", editor:false},
+        {title:"Aggiornata il", field:"lastUpdate", editor:false},
+        {title:"Aggiornata da", field:"lastUpdateByNomeCognome", editor:false},
+
+            // {title:"Name", field:"name", editor:"input"},
+            // {title:"Task Progress", field:"progress", hozAlign:"left", formatter:"progress", editor:true},
+            // {title:"Gender", field:"gender", width:95, editor:"select", editorParams:{values:["male", "female"]}},
+            // {title:"Rating", field:"rating", formatter:"star", hozAlign:"center", width:100, editor:true},
+            // {title:"Color", field:"col", width:130, editor:"input"},
+            // {title:"Date Of Birth", field:"dob", width:130, sorter:"date", hozAlign:"center"},
+            // {title:"Driver", field:"car", width:90,  hozAlign:"center", formatter:"tickCross", sorter:"boolean", editor:true},
+        ],
     });
-    table.append(tbody);
+    // let table = buildTable();
+
+    // let tbody = $("<tbody>");
+    // richieste.forEach(element => {
+    //     tr = $("<tr>");
+    //     el = $("<th>").addClass("element-data").attr({ "scope": "row"/*,"data":JSON.stringify(element)*/ }).text(element.id);
+    //     tr.append(el);
+    //     el = $("<td>").text(element.nome);
+    //     tr.append(el);
+    //     el = $("<td>").text(element.cognome);
+    //     tr.append(el);
+    //     el = $("<td>").text(element.codiceFiscale);
+    //     tr.append(el);
+    //     el = $("<td>").text(element.email);
+    //     tr.append(el);
+    //     el = $("<td>").text(element.numero);
+    //     tr.append(el);
+    //     el = $("<td>").text(formattaData(element.dataRic,false));
+    //     tr.append(el);
+    //     el = $("<td>").text(10 - calcolaGiorni(element.dataRic));
+    //     tr.append(el);
+    //     el = $("<td>").text(element.fase);
+    //     tr.append(el);
+    //     el = $("<td>").text(element.motivo);
+    //     tr.append(el);
+    //     el = $("<td>").html('<span class="material-symbols-outlined">notes</span>').attr({ "onClick": "alert('"+element.note+"')", "value": element.note }).css({ "cursor": "pointer" });
+    //     tr.append(el);
+    //     el = $("<td>").text(formattaData(element.created,true));
+    //     tr.append(el);
+    //     el = $("<td>").text(element.createdByNomeCognome);
+    //     tr.append(el);
+    //     el = $("<td>").text(formattaData(element.lastUpdate,true));
+    //     tr.append(el);
+    //     el = $("<td>").text(element.lastUpdateByNomeCognome);
+    //     tr.append(el);
+    //     if (user.canEdit) {
+    //         el = $("<td>").html('<span class="material-symbols-outlined">edit</span>').css({ "cursor": "pointer" }).click(function(){
+    //             showElementUpdate(element);
+    //         });
+    //         tr.append(el);
+    //     } else {
+    //         el = $("<td>").text();
+    //         tr.append(el);
+    //     }
+    //     if (user.canEdit) {
+    //         el = $("<td>").html('<span class="material-symbols-outlined">delete_forever</span>').attr({ "onClick": "alert('Delete row')" }).css({ "cursor": "pointer" });
+    //         tr.append(el);
+    //     } else {
+    //         el = $("<td>").text();
+    //         tr.append(el);
+    //     }
+    //     tbody.append(tr);
+    // });
+    // table.append(tbody);
     $("#main").append(table);
 }
 

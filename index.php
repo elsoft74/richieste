@@ -5,13 +5,15 @@
     <script src="bootstrap/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
     <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/jquery-3.6.0.min.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/requests.js"></script>
-    <script src="js/page.js"></script>
-    <script src="js/fasi.js"></script>
-    <script src="js/login.js"></script>
-    <script src="js/insert.js"></script>
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="js/tabulator.min.js"></script>
+    <script type="text/javascript" src="js/jquery_wrapper.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/requests.js"></script>
+    <script type="text/javascript" src="js/page.js"></script>
+    <script type="text/javascript" src="js/fasi.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="js/insert.js"></script>
     <script>
         $(document).ready(function() {
             buildLogin();
