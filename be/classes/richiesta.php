@@ -18,6 +18,7 @@ class Richiesta
     public $lastUpdateBy;
     public $lastUpdateByNomeCognome;
     public $isActive;
+    public $giorni;
 
     public function __construct()
     {
@@ -195,6 +196,16 @@ class Richiesta
         return $this->isActive;
     }
 
+    public function setGiorni($val)
+    {
+        $this->giorni = $val;
+    }
+
+    public function getGiorni()
+    {
+        return $this->giorni;
+    }
+
     public function getDetails()
     {
         if ($this->id != null) {
@@ -218,7 +229,8 @@ class Richiesta
                             r.last_update AS last_update,
                             r.updated_by AS updated_by,
                             CONCAT(u2.nome," ",u2.cognome) AS last_update_by_nome_cognome,
-                            r.is_active AS is_active
+                            r.is_active AS is_active,
+                            DATEDIFF(CURRENT_DATE(),r.data_ric) AS giorni
                             FROM `richieste` AS r
                             LEFT JOIN `users` AS u1 ON r.`created_by`= u1.ID
                             LEFT JOIN `users` AS u2 ON r.`updated_by`= u2.ID
@@ -251,6 +263,7 @@ class Richiesta
                         $this->setLastUpdateBy($res["updated_by"]);
                         $this->setLastUpdateByNomeCognome($res["last_update_by_nome_cognome"]);
                         $this->setIsActive($res["is_active"]);
+                        $this->setGiorni($res["giorni"]);
                     }
                 } else {
                     throw new Exception("DB-CONNECTION-ERROR");
@@ -323,8 +336,6 @@ class Richiesta
                 $conn = DB::conn();
                 if ($conn != null) {
                     try {
-
-
                         $out->status = "OK";
                     } catch (Exception $ex) {
                         $out->error = $ex->getMessage();
@@ -347,7 +358,7 @@ class Richiesta
     {
         $out = new stdClass();
         $out->status = "KO";
-        file_put_contents("log/richiesta-in.log",(new DateTime("now"))->format("Y-m-d H:i").print_r($this)."\n",FILE_APPEND);
+        // file_put_contents("log/dbtest.log","[".(new DateTime("now"))->format("Y-m-d H:i")."] ".print_r($this)."\n",FILE_APPEND);
         try {
             if ($this->getId() != null) {
                 $conn = DB::conn();
@@ -388,9 +399,9 @@ class Richiesta
                         
 
 
-                        // if ($stmt->rowCount() != 1) {
-                        //     throw new Exception("UPDATE-ERROR");
-                        // }
+                        if ($out->num != 1) {
+                            throw new Exception("UPDATE-ERROR");
+                        }
 
                         $out->status = "OK";
                     } catch (Exception $ex) {
@@ -406,7 +417,7 @@ class Richiesta
             $conn = null;
             $out->error = $ex->getMessage();
         }
-        file_put_contents("log/richiesta-out.log",(new DateTime("now"))->format("Y-m-d H:i").print_r($out)."\n",FILE_APPEND);
+        // file_put_contents("log/dbtest.log","[".(new DateTime("now"))->format("Y-m-d H:i")."] ".print_r($out)."\n",FILE_APPEND);
         return $out;
     }
 }
