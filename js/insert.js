@@ -5,7 +5,7 @@ function buildInsertForm(target) {
         case "insert":
             tar="#insert";
             fun1="inserisci()";
-            fun2=hideInsert();
+            fun2="cleanInsert()";
             attrs={
                 id:"id",
                 nome:"nome",
@@ -16,14 +16,16 @@ function buildInsertForm(target) {
                 data:"data",
                 fase:"fase",
                 motivo:"motivo",
-                note:"note"
+                note:"note",
+                titleId:"modalTitle",
+                titleText:"Inserisci nuova richiesta"
             }
             canBuild=true;
             break;
-        case "editRow":
-            tar="#editRow";
+        case "edit":
+            tar="#edit";
             fun1="aggiorna()";
-            fun2=hideEdit();
+            fun2="cleanEdit()";
             attrs={
                 id:"editId",
                 nome:"editNome",
@@ -34,21 +36,31 @@ function buildInsertForm(target) {
                 data:"editData",
                 fase:"editFase",
                 motivo:"editMotivo",
-                note:"editNote"
+                note:"editNote",
+                titleId:"editModalTitle",
+                titleText:"Modifica richiesta"
             }
             canBuild=true;
             break;
     }
 
     if (canBuild) {
-        let div = $("<div>").addClass("row");
-        let div1 = $("<div>").addClass("col-2");
-        let div2 = $("<div>").addClass("col-8");
-        let div3 = $("<div>").addClass("col-2");
-        let form = $("<form>");
+        let modal = $(tar).addClass("modal")/*.addClass("fade")*/.attr({"id":target,"tabindex":"-1", "role":"dialog", "aria-labelledby":attrs.titleId, "aria-hidden":"true"});
+        let modalDialog = $("<div>").addClass("modal-dialog").attr({"role":"document"});
+        let modalContent = $("<div>").addClass("modal-content");
+        let modalHeader = $("<div>").addClass("modal-header");
+        let modalBody = $("<div>").addClass("modal-body");
+        let modalFooter = $("<div>").addClass("modal-footer");
+        
+        let el = $("<h5>").addClass("modal-title").attr({"id":attrs.titleId}).html(attrs.titleText);
+        modalHeader.append(el);
+        // el=$("<botton>").addClass("close").attr({"data-dismiss":"modal", "aria-label":"Close","onClick":close(tar)}).html('<span aria-hidden="true">&times;</span>');
+        // modalHeader.append(el);
+        modalContent.append(modalHeader);
 
+        let form = $("<form>");
         let divFormGroup = $("<div>").addClass("form-group");
-        let el = $("<input>").attr({ "type": "hidden", "id":attrs.id });
+        el = $("<input>").attr({ "type": "hidden", "id":attrs.id });
         divFormGroup.append(el);
         el = $("<label>").attr({ "for": "nome" }).text("Nome");
         divFormGroup.append(el);
@@ -112,50 +124,18 @@ function buildInsertForm(target) {
         divFormGroup.append(el);
         form.append(divFormGroup);
 
-        div4 = $("<div>").addClass("row").css({ "margin-top": "5" });
-        div5 = $("<div>").addClass("col-4");
+        modalBody.append(form);
+        modalContent.append(modalBody);
 
-        el = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").text("Conferma").attr({ "onClick": fun1 });
-        div5.append(el);
-        div4.append(div5);
-        div5 = $("<div>").addClass("col-4");
-        div4.append(div5);
-        div5 = $("<div>").addClass("col-4");
-        el = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").text("Annulla").attr({ "onClick": fun2 });
-        div5.append(el);
-        div4.append(div5);
-        form.append(div4);
+        el = $("<button>").addClass("btn").addClass("btn-primary").text("Conferma").attr({ "onClick": fun1 });
+        modalFooter.append(el);
+        el = $("<button>").addClass("btn").addClass("btn-secondary").text("Annulla").attr({"onClick": fun2/*"data-dismiss":"modal"*/});
+        modalFooter.append(el);
+        modalContent.append(modalFooter);
 
-        div2.append(form);
-        div.append(div1);
-        div.append(div2);
-        div.append(div3);
-        $(tar).html("");
-        $(tar).append(div);
-        fun2;
+        modalDialog.append(modalContent);
+        modal.append(modalDialog);
     }
-}
-
-function showInsert() {
-    hideAll();
-    cleanInsert();
-    $("#insert").show();
-}
-
-function hideInsert() {
-    cleanInsert();
-    $("#insert").hide();
-}
-
-function showEdit() {
-    hideAll();
-    cleanEdit();
-    $("#editRow").show();
-}
-
-function hideEdit() {
-    cleanEdit();
-    $("#editRow").hide();
 }
 
 function cleanInsert() {
@@ -169,6 +149,7 @@ function cleanInsert() {
     $("#fase").val("");
     $("#motivo").val("");
     $("#note").val("");
+    $("#insert").fadeOut();
 }
 
 function cleanEdit() {
@@ -182,8 +163,5 @@ function cleanEdit() {
     $("#editFase").val("");
     $("#editMotivo").val("");
     $("#editNote").val("");
-}
-
-function hideAll(){
-    $(".sections").hide();
+    $("#edit").fadeOut();
 }

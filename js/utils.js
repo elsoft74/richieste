@@ -69,3 +69,7 @@ function formattaData(data, lung) { // lung se impostato a true fa ottenere una 
     }
     return out;
 }
+
+function hideAll(){
+    $(".sections").hide();
+}

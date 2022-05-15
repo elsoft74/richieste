@@ -5,15 +5,20 @@
     <script src="bootstrap/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
     <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="css/style.css">
+    <link href="css/tabulator.min.css" rel="stylesheet">
+    <link href="css/tabulator_materialize.min.css" rel="stylesheet">
+    <script type="text/javascript" src="js/moment-with-locales.js"></script>
+    <script type="text/javascript" src="js/luxon.min.js"></script>
     <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="js/tabulator.min.js"></script>
-    <script type="text/javascript" src="js/jquery_wrapper.js"></script>
+    <!-- <script type="text/javascript" src="js/jquery_wrapper.js"></script> -->
     <script type="text/javascript" src="js/utils.js"></script>
     <script type="text/javascript" src="js/requests.js"></script>
     <script type="text/javascript" src="js/page.js"></script>
     <script type="text/javascript" src="js/fasi.js"></script>
     <script type="text/javascript" src="js/login.js"></script>
     <script type="text/javascript" src="js/insert.js"></script>
+    
     <script>
         $(document).ready(function() {
             buildLogin();
@@ -28,7 +33,7 @@
         });
         $(window).on('allDataLoaded', function() {
             buildInsertForm("insert");
-            buildInsertForm("editRow");
+            buildInsertForm("edit");
             showMenu(lu);
             showRequests(richieste, lu);
         })
@@ -40,11 +45,11 @@
         </div>
         <div id="main" class="sections">
         </div>
-        <div id="insert" class="sections">
+        <div id="insert">
         </div>
         <div id="login" class="sections">
         </div>
-        <div id="editRow" class="sections">
+        <div id="edit">
         </div>
 </body>
 

@@ -14,9 +14,7 @@ function showMenu(user) {
         div3.attr("id", "loginbutton");
         div3.append(button);
         div2.text(user.nome + " " + user.cognome);
-        button = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").attr({ "onClick": "showInsert()" }).text("Inserisci");
-        div1.append(button);
-        button = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").attr({ "onClick": "alert('Cerca')" }).text("Cerca");
+        button = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").attr({"onClick":'$("#insert").fadeIn()'/*"data-toggle":"modal","data-target":"#input"*/}).text("Inserisci");
         div1.append(button);
         row.append(div1);
         row.append(div2);
