@@ -19,7 +19,7 @@ function showRequests(richieste, user) {
             { title: "#", field: "id", width: 10, editor: false, hozAlign: "center" },
             { title: "Nome", field: "nome", editor: false },
             { title: "Cognome", field: "cognome", editor: false, headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
-            { title: "Codice Fiscale", field: "CodiceFiscale", editor: false, hozAlign: "center", headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
+            { title: "Codice Fiscale", field: "codiceFiscale", editor: false, hozAlign: "center", headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
             { title: "e-mail", field: "email", editor: false },
             { title: "Numero Richiesta", field: "numero", editor: false, hozAlign: "center", headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
             {
@@ -34,8 +34,32 @@ function showRequests(richieste, user) {
             // {
             //     title: "Avanzamento",
             //     columns: [
-            { title: "Giorni", field: "id", editor: false, hozAlign: "center" },
-            { title: "Fase", field: "fase", editor: false, hozAlign: "center", editor: "list", headerFilter: true, headerFilterParams: { values: { "": "Tutte", 0: "0", 1: "1", 2: "2" } } },
+            { title: "Giorni", field: "giorni", editor: false, hozAlign: "center" },
+            {
+                title: "Fase", field: "fase", editor: false, hozAlign: "center", editor: "list", headerFilter: true, headerFilterParams: {
+                    values: function (cell, formatterParams, onRendered) {
+                        var out = [];
+                        let fase = { "": "Tutte" };
+                        out.push(fase);
+                        fasi.forEach(el => {
+                            fase[el.id] = el.descrizione;
+                            console.log(fase);
+                            out.push(fase);
+                        });
+                        return out;
+
+                    }
+                }, formatter: function (cell, formatterParams, onRendered) {
+                    let val=cell.getValue();
+                    let out="FASE NON TROVATA";
+                    fasi.forEach(el => {
+                        if(el.id==val) {
+                            out = el.descrizione;
+                        }
+                    });
+                    return out;
+                }
+            },
             { title: "Note", field: "note", editor: false, formatter: "textarea"/*, cellClick: cellPopupFormatter */ },
             {
                 title: "Creata",
@@ -61,13 +85,15 @@ function showRequests(richieste, user) {
                 },
                 { title: "da", field: "lastUpdateByNomeCognome", editor: false },]
             },
-            { title: "", width: 10, hozAlign: "center", editor: false, cellClick: showElementUpdate,formatter:function(cell, formatterParams, onRendered){
-                //cell - the cell component
-                //formatterParams - parameters set for the column
-                //onRendered - function to call when the formatter has been rendered
-            
-                return '<span class="material-symbols-outlined">edit</span>'; //return the contents of the cell;
-            }, }
+            {
+                title: "", width: 10, hozAlign: "center", editor: false, cellClick: showElementUpdate, formatter: function (cell, formatterParams, onRendered) {
+                    //cell - the cell component
+                    //formatterParams - parameters set for the column
+                    //onRendered - function to call when the formatter has been rendered
+
+                    return '<span class="material-symbols-outlined">edit</span>'; //return the contents of the cell;
+                },
+            }
 
 
             //     ]
@@ -140,49 +166,49 @@ function showRequests(richieste, user) {
     // $("#main").append(table);
 }
 
-function buildTable() {
-    let table = $("<table>").addClass("table").attr("id", "requestslist");
-    let thead = $("<thead>").addClass("thead-light");
-    let tr = $("<tr>");
-    let el = $("<th>").attr("scope", "col").text("#");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Nome");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Cognome");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Codice Fiscale");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("e-mail");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("numero");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Data");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Giorni");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Fase");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Motivo");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Note");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Creata");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Creata da");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Aggiornata");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("Aggiornata da");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("");
-    tr.append(el);
-    el = $("<th>").attr("scope", "col").text("");
-    tr.append(el);
-    thead.append(tr);
-    table.append(thead);
+// function buildTable() {
+//     let table = $("<table>").addClass("table").attr("id", "requestslist");
+//     let thead = $("<thead>").addClass("thead-light");
+//     let tr = $("<tr>");
+//     let el = $("<th>").attr("scope", "col").text("#");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Nome");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Cognome");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Codice Fiscale");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("e-mail");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("numero");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Data");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Giorni");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Fase");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Motivo");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Note");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Creata");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Creata da");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Aggiornata");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("Aggiornata da");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("");
+//     tr.append(el);
+//     el = $("<th>").attr("scope", "col").text("");
+//     tr.append(el);
+//     thead.append(tr);
+//     table.append(thead);
 
-    return table;
-}
+//     return table;
+// }
 
 function inserisci() {
     let richiesta = {};
@@ -232,11 +258,12 @@ function aggiorna() {
     if (err != '') {
         alert(err);
     } else {
-        
+
         let xhr = new XMLHttpRequest();
         let url = "be/updateRequest.php";
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.setRequestHeader("richiesta", JSON.stringify(richiesta));
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 result = JSON.parse(xhr.responseText);
@@ -249,7 +276,7 @@ function aggiorna() {
                 }
             }
         }
-        xhr.send("richiesta=" + JSON.stringify(richiesta));
+        xhr.send();
     }
 
 }
