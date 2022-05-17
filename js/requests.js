@@ -36,7 +36,7 @@ function showRequests(richieste, user) {
             //     columns: [
             { title: "Giorni", field: "giorni", editor: false, hozAlign: "center" },
             {
-                title: "Fase", field: "fase", editor: false, hozAlign: "center", editor: "list", headerFilter: true, headerFilterParams: {
+                title: "Fase", field: "fase", editor: false, hozAlign: "center",/* editor: "list", headerFilter: true, headerFilterParams: {
                     values: function (cell, formatterParams, onRendered) {
                         var out = [];
                         let fase = { "": "Tutte" };
@@ -49,7 +49,7 @@ function showRequests(richieste, user) {
                         return out;
 
                     }
-                }, formatter: function (cell, formatterParams, onRendered) {
+                },*/ formatter: function (cell, formatterParams, onRendered) {
                     let val=cell.getValue();
                     let out="FASE NON TROVATA";
                     fasi.forEach(el => {
@@ -166,49 +166,6 @@ function showRequests(richieste, user) {
     // $("#main").append(table);
 }
 
-// function buildTable() {
-//     let table = $("<table>").addClass("table").attr("id", "requestslist");
-//     let thead = $("<thead>").addClass("thead-light");
-//     let tr = $("<tr>");
-//     let el = $("<th>").attr("scope", "col").text("#");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Nome");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Cognome");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Codice Fiscale");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("e-mail");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("numero");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Data");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Giorni");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Fase");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Motivo");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Note");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Creata");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Creata da");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Aggiornata");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("Aggiornata da");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("");
-//     tr.append(el);
-//     el = $("<th>").attr("scope", "col").text("");
-//     tr.append(el);
-//     thead.append(tr);
-//     table.append(thead);
-
-//     return table;
-// }
 
 function inserisci() {
     let richiesta = {};
@@ -222,16 +179,36 @@ function inserisci() {
     richiesta.fase = $("#fase").val();
     richiesta.motivo = $("#motivo").val().trim();
     richiesta.note = $("#note").val().trim();
+    richiesta.createdBy = ""+lu.id;
     if (richiesta.numero == '') {
         err += "Il numero della richiesta è obbligatorio\n";
     }
     if (richiesta.codiceFiscale == '') {
         err += "Il codice fiscale è obbligatorio\n";
     }
+    if (richiesta.data == '') {
+        err += "La data è obbligatoria\n";
+    }
     if (err != '') {
         alert(err);
     } else {
-        cleanInsert();
+        let xhr = new XMLHttpRequest();
+        let url = "be/insertRequest.php";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                result = JSON.parse(xhr.responseText);
+                if (result.status == "OK") {
+                    alert("Richiesta inserita.");
+                    cleanInsert();
+                    location.reload();
+                } else {
+                    alert("Impossibile inserire la richiesta.\n"+result.error);
+                }
+            }
+        }
+        xhr.send("richiesta="+JSON.stringify(richiesta));
     }
 }
 
@@ -263,7 +240,7 @@ function aggiorna() {
         let url = "be/updateRequest.php";
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.setRequestHeader("richiesta", JSON.stringify(richiesta));
+        // xhr.setRequestHeader("richiesta", JSON.stringify(richiesta));
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 result = JSON.parse(xhr.responseText);
@@ -276,7 +253,7 @@ function aggiorna() {
                 }
             }
         }
-        xhr.send();
+        xhr.send("richiesta="+JSON.stringify(richiesta));
     }
 
 }

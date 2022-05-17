@@ -332,19 +332,73 @@ class Richiesta
         $out = new stdClass();
         $out->status = "KO";
         try {
-            if ($this->getId() != null) {
-                $conn = DB::conn();
-                if ($conn != null) {
-                    try {
-                        $out->status = "OK";
-                    } catch (Exception $ex) {
-                        $out->error = $ex->getMessage();
+            $conn = DB::conn();
+            if ($conn != null) {
+                try {
+                    $query = "SELECT COUNT(*) AS presenti FROM `richieste`
+                    WHERE `is_active` = 1 AND
+                    (UPPER(`codicefiscale`)=UPPER(:codicefiscale) OR `numero`=:numero)";
+
+                    $stmt = $conn->prepare($query);
+                    $stmt->bindParam(':codicefiscale', $this->codiceFiscale, PDO::PARAM_STR);
+                    $stmt->bindParam(':numero', $this->numero, PDO::PARAM_STR);
+                    $stmt->execute();
+
+                    $res = $stmt->fetch(PDO::FETCH_ASSOC);
+                    // $out->presenti = $res;
+                    if ($res && $res['presenti'] == 0) {
+                        $query = "INSERT INTO `richieste` (
+                            `nome`,
+                            `cognome`,
+                            `codicefiscale`,
+                            `email`,
+                            `numero`,
+                            `data_ric`,
+                            `fase`,
+                            `motivo`,
+                            `note`,
+                            `created_by`
+                        ) VALUES (:nome,
+                            :cognome,
+                            :codicefiscale,
+                            :email,
+                            :numero,
+                            :data_ric,
+                            :fase,
+                            :motivo,
+                            :note,
+                            :created_by)";
+
+                        $stmt = $conn->prepare($query);
+                        $stmt->bindParam(':nome', $this->nome, PDO::PARAM_STR);
+                        $stmt->bindParam(':cognome', $this->cognome, PDO::PARAM_STR);
+                        $stmt->bindParam(':codicefiscale', $this->codiceFiscale, PDO::PARAM_STR);
+                        $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
+                        $stmt->bindParam(':numero', $this->numero, PDO::PARAM_STR);
+                        $stmt->bindParam(':data_ric', $this->dataRic, PDO::PARAM_STR);
+                        $stmt->bindParam(':fase', $this->fase, PDO::PARAM_INT);
+                        $stmt->bindParam(':motivo', $this->motivo, PDO::PARAM_STR);
+                        $stmt->bindParam(':note', $this->note, PDO::PARAM_STR);
+                        $stmt->bindParam(':created_by', $this->createdBy, PDO::PARAM_INT);
+
+                        $stmt->execute();
+
+                        $this->setId($conn->lastInsertId());
+
+                        if ($this->id != 0) {
+                            $out->status = "OK";
+                        } else {
+                            $out->errorInfo=$conn->errorInfo();
+                            throw new Exception("Errore d'inserimento");
+                        }
+                    } else {
+                        throw new Exception("Codice fiscale o numero richiesta già presente.");
                     }
-                } else {
-                    throw new Exception("DB-CONNECTION-ERROR");
+                } catch (Exception $ex) {
+                    $out->error = $ex->getMessage();
                 }
             } else {
-                throw new Exception("EMPTY-REQUEST");
+                throw new Exception("DB-CONNECTION-ERROR");
             }
         } catch (Exception $ex) {
             $conn = null;
@@ -358,9 +412,11 @@ class Richiesta
     {
         $out = new stdClass();
         $out->status = "KO";
+        // $out->fase = "pre-try";
         // file_put_contents("log/dbtest.log","[".(new DateTime("now"))->format("Y-m-d H:i")."] ".print_r($this)."\n",FILE_APPEND);
         try {
             if ($this->getId() != null) {
+                // $out->fase = "post-try";
                 $conn = DB::conn();
                 if ($conn != null) {
                     try {
@@ -395,9 +451,7 @@ class Richiesta
                         $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
 
                         $stmt->execute();
-                        $out->num=$stmt->rowCount();
-                        
-
+                        $out->num = $stmt->rowCount();
 
                         if ($out->num != 1) {
                             throw new Exception("UPDATE-ERROR");
