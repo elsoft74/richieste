@@ -7,7 +7,7 @@
     include_once("config/config.php");
     include_once("classes/db.php");
     include_once("classes/user.php");
-    include_once("classes/richiesta.php");
+    include_once("classes/richiesta.php"); 
     try {
         $tmp = json_decode($_POST['richiesta']);
         $out->in=print_r($tmp,true);
