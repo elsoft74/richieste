@@ -36,7 +36,7 @@ function showRequests(richieste, user) {
             //     columns: [
             { title: "Giorni", field: "giorni", editor: false, hozAlign: "center" },
             {
-                title: "Fase", field: "fase", editor: false, hozAlign: "center",/* editor: "list", headerFilter: true, headerFilterParams: {
+                title: "Fase", field: "fase", editor: false, hozAlign: "center", editor: false, headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like",/*headerFilter: true, headerFilterParams: {
                     values: function (cell, formatterParams, onRendered) {
                         var out = [];
                         let fase = { "": "Tutte" };
@@ -50,10 +50,10 @@ function showRequests(richieste, user) {
 
                     }
                 },*/ formatter: function (cell, formatterParams, onRendered) {
-                    let val=cell.getValue();
-                    let out="FASE NON TROVATA";
+                    let val = cell.getValue();
+                    let out = "FASE NON TROVATA";
                     fasi.forEach(el => {
-                        if(el.id==val) {
+                        if (el.id == val) {
                             out = el.descrizione;
                         }
                     });
@@ -87,83 +87,22 @@ function showRequests(richieste, user) {
             },
             {
                 title: "", width: 10, hozAlign: "center", editor: false, cellClick: showElementUpdate, formatter: function (cell, formatterParams, onRendered) {
-                    //cell - the cell component
-                    //formatterParams - parameters set for the column
-                    //onRendered - function to call when the formatter has been rendered
 
-                    return '<span class="material-symbols-outlined">edit</span>'; //return the contents of the cell;
+                    return '<span class="material-symbols-outlined">edit</span>';
                 },
             }
 
 
-            //     ]
-            // },
 
-
-            // {title:"Name", field:"name", editor:"input"},
-            // {title:"Task Progress", field:"progress", hozAlign:"left", formatter:"progress", editor:true},
-            // {title:"Gender", field:"gender", width:95, editor:"select", editorParams:{values:["male", "female"]}},
-            // {title:"Rating", field:"rating", formatter:"star", hozAlign:"center", width:100, editor:true},
-            // {title:"Color", field:"col", width:130, editor:"input"},
-            // {title:"Date Of Birth", field:"dob", width:130, sorter:"date", hozAlign:"center"},
-            // {title:"Driver", field:"car", width:90,  hozAlign:"center", formatter:"tickCross", sorter:"boolean", editor:true},
         ],
     });
-    // let table = buildTable();
 
-    // let tbody = $("<tbody>");
-    // richieste.forEach(element => {
-    //     tr = $("<tr>");
-    //     el = $("<th>").addClass("element-data").attr({ "scope": "row"/*,"data":JSON.stringify(element)*/ }).text(element.id);
-    //     tr.append(el);
-    //     el = $("<td>").text(element.nome);
-    //     tr.append(el);
-    //     el = $("<td>").text(element.cognome);
-    //     tr.append(el);
-    //     el = $("<td>").text(element.codiceFiscale);
-    //     tr.append(el);
-    //     el = $("<td>").text(element.email);
-    //     tr.append(el);
-    //     el = $("<td>").text(element.numero);
-    //     tr.append(el);
-    //     el = $("<td>").text(formattaData(element.dataRic,false));
-    //     tr.append(el);
-    //     el = $("<td>").text(10 - calcolaGiorni(element.dataRic));
-    //     tr.append(el);
-    //     el = $("<td>").text(element.fase);
-    //     tr.append(el);
-    //     el = $("<td>").text(element.motivo);
-    //     tr.append(el);
-    //     el = $("<td>").html('<span class="material-symbols-outlined">notes</span>').attr({ "onClick": "alert('"+element.note+"')", "value": element.note }).css({ "cursor": "pointer" });
-    //     tr.append(el);
-    //     el = $("<td>").text(formattaData(element.created,true));
-    //     tr.append(el);
-    //     el = $("<td>").text(element.createdByNomeCognome);
-    //     tr.append(el);
-    //     el = $("<td>").text(formattaData(element.lastUpdate,true));
-    //     tr.append(el);
-    //     el = $("<td>").text(element.lastUpdateByNomeCognome);
-    //     tr.append(el);
-    //     if (user.canEdit) {
-    //         el = $("<td>").html('<span class="material-symbols-outlined">edit</span>').css({ "cursor": "pointer" }).click(function(){
-    //             showElementUpdate(element);
-    //         });
-    //         tr.append(el);
-    //     } else {
-    //         el = $("<td>").text();
-    //         tr.append(el);
-    //     }
-    //     if (user.canEdit) {
-    //         el = $("<td>").html('<span class="material-symbols-outlined">delete_forever</span>').attr({ "onClick": "alert('Delete row')" }).css({ "cursor": "pointer" });
-    //         tr.append(el);
-    //     } else {
-    //         el = $("<td>").text();
-    //         tr.append(el);
-    //     }
-    //     tbody.append(tr);
-    // });
-    // table.append(tbody);
-    // $("#main").append(table);
+    let button = $("<button>").addClass("btn btn-primary btn-block").attr({ "id": "dataDownLoadButton" }).html("Scarica tabella");
+    $("#menubuttons").append(button);
+    document.getElementById("dataDownLoadButton").addEventListener("click", function () {
+        table.download("xlsx", "data.xlsx", { sheetName: "Export" });
+    });
+
 }
 
 
@@ -179,7 +118,7 @@ function inserisci() {
     richiesta.fase = $("#fase").val();
     richiesta.motivo = $("#motivo").val().trim();
     richiesta.note = $("#note").val().trim();
-    richiesta.createdBy = ""+lu.id;
+    richiesta.createdBy = "" + lu.id;
     if (richiesta.numero == '') {
         err += "Il numero della richiesta è obbligatorio\n";
     }
@@ -204,11 +143,11 @@ function inserisci() {
                     cleanInsert();
                     location.reload();
                 } else {
-                    alert("Impossibile inserire la richiesta.\n"+result.error);
+                    alert("Impossibile inserire la richiesta.\n" + result.error);
                 }
             }
         }
-        xhr.send("richiesta="+JSON.stringify(richiesta));
+        xhr.send("richiesta=" + JSON.stringify(richiesta));
     }
 }
 
@@ -253,7 +192,7 @@ function aggiorna() {
                 }
             }
         }
-        xhr.send("richiesta="+JSON.stringify(richiesta));
+        xhr.send("richiesta=" + JSON.stringify(richiesta));
     }
 
 }

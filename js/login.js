@@ -19,7 +19,7 @@ function login() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 result = JSON.parse(xhr.responseText);
                 if (result.status == "OK") {
-                    user=JSON.parse(result.data);
+                    user=result.data;
                     localStorage.setItem("loggeduser", JSON.stringify(user));
                     location.reload();
                 } else {
@@ -38,11 +38,11 @@ function logout() {
 }
 
 function showLogin() {
-    $("#login").show();
+    $("#login").fadeIn();
 }
 
 function hideLogin() {
-    $("#login").show();
+    $("#login").fadeOut();
 }
 
 function buildLogin() {
