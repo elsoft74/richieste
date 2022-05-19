@@ -84,7 +84,7 @@ function buildInsertForm(target) {
         el = $("<input>").addClass("form-control").attr({ "type": "email", "id": attrs.email });
         divFormGroup.append(el);
     
-        el = $("<label>").attr({ "for": "numero" }).text("Numero");
+        el = $("<label>").attr({ "for": "numero" }).text("Numero sanzione");
         divFormGroup.append(el);
         el = $("<input>").addClass("form-control").attr({ "type": "text", "id": attrs.numero });
         divFormGroup.append(el);

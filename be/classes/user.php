@@ -1,12 +1,12 @@
 <?php
     class User {    
-        private $id;
-        private $username;
+        public $id;
+        public $username;
         private $password;
-        private $nome;
-        private $cognome;
-        private $role_id;
-        private $is_active;
+        public $nome;
+        public $cognome;
+        public $role_id;
+        public $is_active;
         
         public function setUserName($val){
             $this->username=$val;
@@ -31,13 +31,13 @@
                 $conn=DB::conn();
                 if ($conn!=null){
                     try {
-                        $password=hash("sha256",$this->password);
+                        // $password=hash("sha256",$this->password);
                     
-                        $query="SELECT * FROM `users` WHERE `username`=:username AND `password`=:password";
+                        $query="SELECT * FROM `users` WHERE `username`=:username AND `password`=SHA1(:password)";
                         
                         $stmt = $conn->prepare($query);
                         $stmt->bindParam(':username',$this->username,PDO::PARAM_STR);
-                        $stmt->bindParam(':password',$password,PDO::PARAM_STR);
+                        $stmt->bindParam(':password',$this->password,PDO::PARAM_STR);
                         $stmt->execute();
                         $res=$stmt->fetch(PDO::FETCH_ASSOC);
                         if(!$res){
@@ -51,10 +51,11 @@
                                 $this->cognome=$res["cognome"];
                                 $this->role_id=$res["role_id"];
                                 $this->is_active=$res["is_active"];
+                                $out->status="OK";
+                                $out->data=$this;
                             }
                             
                         }                    
-                        $out->status="OK";
                     } catch(Exception $ex){
                             $out->error=$ex->getMessage();
                         }
