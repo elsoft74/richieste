@@ -302,9 +302,9 @@ class Richiesta
 
                     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $out->data = $res;
-                    if (!$res) {
-                        throw new Exception("ERRORE-NELLA-RICERCA");
-                    }
+                    // if (!$res) {
+                    //     throw new Exception("ERRORE-NELLA-RICERCA");
+                    // }
                     $out->data = [];
                     foreach ($res as $r) {
                         $tmp = new Richiesta();
