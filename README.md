@@ -1,2 +1,3 @@
-# richieste
-Portale interno ASP per la gestione delle richieste
+# Gestione avanzamento richieste
+Applicativo WEB per la gestione di richieste e relativi stati d'avanzamento.
+
