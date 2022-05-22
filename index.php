@@ -15,43 +15,64 @@
     <!-- <script type="text/javascript" src="js/jquery_wrapper.js"></script> -->
     <script type="text/javascript" src="js/utils.js"></script>
     <script type="text/javascript" src="js/requests.js"></script>
-    <script type="text/javascript" src="js/page.js"></script>
+    <script type="text/javascript" src="js/menu.js"></script>
     <script type="text/javascript" src="js/fasi.js"></script>
     <script type="text/javascript" src="js/login.js"></script>
     <script type="text/javascript" src="js/insert.js"></script>
-    
-    <script>
-        $(document).ready(function() {
-            buildLogin();
-            lu = localStorage.getItem("loggeduser");
-            if (lu != null) {
-                lu = JSON.parse(lu);
-                loadData();
-            } else {
-                showLogin();
-            }
+    <script type="text/javascript" src="js/edit.js"></script>
 
-        });
-        $(window).on('allDataLoaded', function() {
-            buildInsertForm("insert");
-            buildInsertForm("edit");
-            showMenu(lu);
-            showRequests(richieste, lu);
-        })
-    </script>
 </head>
 
 <body>
-        <div id="menu">
-        </div>
-        <div id="main" class="sections">
-        </div>
-        <div id="insert">
-        </div>
-        <div id="login" class="sections">
-        </div>
-        <div id="edit">
-        </div>
+    <div id="menu"></div>
+    <div id="main" class="sections"></div>
+    <div id="insert"></div>
+    <div id="login" class="sections"></div>
+    <div id="edit"></div>
+    <script>
+        // $(window).on('dataLoaded', function() {
+        //     buildInsertForm("insert");
+        //     buildInsertForm("edit");
+        //     showMenu(lu);
+        //     showRequests(richieste, lu);
+        // })
+        // $(document).ready(function() {
+        //     lu = JSON.parse(localStorage.getItem("loggeduser"));
+        //     if (lu == null) {
+        //         if ($("#login").html() == "") {
+        //             buildLogin();
+        //             showLogin();
+        //         } else if(!$("#login").is(":visible")){
+        //             showLogin();
+        //         }
+        //     } else {
+        //         loadData();
+        //     }
+
+        // });
+        
+        if ($("#login").html() == "") {
+            buildLogin();
+        }
+        window.addEventListener('dataLoaded', function() {
+            buildInsertForm("insert");
+            buildEditForm("edit");
+            showMenu(lu);
+            showRequests(richieste, lu);
+        })
+        window.onload = function() {
+            lu = JSON.parse(localStorage.getItem("loggeduser"));
+            if (lu == null) {
+                if (!$("#login").is(":visible")) {
+                    showLogin();
+                }
+            } else {
+                hideLogin();
+                loadData();
+            }
+
+        };
+    </script>
 </body>
 
 </html>
