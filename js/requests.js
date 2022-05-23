@@ -9,14 +9,14 @@ function showRequests(richieste, user) {
         addRowPos: "top",          //when adding a new row, add it to the top of the table
         history: true,             //allow undo and redo actions on the table
         pagination: "local",       //paginate the data
-        paginationSize: 10,         //allow 7 rows per page of data
+        paginationSize: 8,         //allow 7 rows per page of data
         paginationCounter: "rows", //display count of paginated rows in footer
         movableColumns: true,      //allow column order to be changed
         initialSort: [             //set the initial sort order of the data
             { column: "dataRic", dir: "asc" },
         ],
         columns: [                 //define the table columns
-            { title: "#", field: "id", width: 10, editor: false, hozAlign: "center" },
+            { title: "#", field: "id", width: 10, editor: false, hozAlign: "center", visible: false },
             { title: "Nome", field: "nome", editor: false },
             { title: "Cognome", field: "cognome", editor: false, headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
             { title: "Codice Fiscale", field: "codiceFiscale", editor: false, hozAlign: "center", headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
@@ -34,7 +34,8 @@ function showRequests(richieste, user) {
             // {
             //     title: "Avanzamento",
             //     columns: [
-            { title: "Giorni", field: "giorni", editor: false, hozAlign: "center" },
+            { title: "Giorni dalla richiesta", field: "giorni", editor: false, hozAlign: "center" },
+            { title: "Giorni dalla modifica", field: "giorni2", editor: false, hozAlign: "center" },
             {
                 title: "Fase", field: "fase", editor: false, hozAlign: "center", editor: false, headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like",/*headerFilter: true, headerFilterParams: {
                     values: function (cell, formatterParams, onRendered) {

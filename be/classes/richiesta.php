@@ -19,6 +19,7 @@ class Richiesta
     public $lastUpdateByNomeCognome;
     public $isActive;
     public $giorni;
+    public $giorni2;
 
     public function __construct()
     {
@@ -206,6 +207,16 @@ class Richiesta
         return $this->giorni;
     }
 
+    public function setGiorni2($val)
+    {
+        $this->giorni2 = $val;
+    }
+
+    public function getGiorni2()
+    {
+        return $this->giorni2;
+    }
+
     public function getDetails()
     {
         if ($this->id != null) {
@@ -230,7 +241,8 @@ class Richiesta
                             r.updated_by AS updated_by,
                             CONCAT(u2.nome," ",u2.cognome) AS last_update_by_nome_cognome,
                             r.is_active AS is_active,
-                            DATEDIFF(CURRENT_DATE(),r.data_ric) AS giorni
+                            DATEDIFF(CURRENT_DATE(),r.data_ric) AS giorni,
+                            DATEDIFF(CURRENT_DATE(),r.last_update) AS giorni2
                             FROM `richieste` AS r
                             LEFT JOIN `users` AS u1 ON r.`created_by`= u1.ID
                             LEFT JOIN `users` AS u2 ON r.`updated_by`= u2.ID
@@ -264,6 +276,7 @@ class Richiesta
                         $this->setLastUpdateByNomeCognome($res["last_update_by_nome_cognome"]);
                         $this->setIsActive($res["is_active"]);
                         $this->setGiorni($res["giorni"]);
+                        $this->setGiorni2($res["giorni2"]);
                     }
                 } else {
                     throw new Exception("DB-CONNECTION-ERROR");
