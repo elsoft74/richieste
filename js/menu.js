@@ -5,7 +5,7 @@ function showMenu(user) {
         let div1 = $("<div>").addClass("col-10");
         let div2 = $("<div>").addClass("col-1");
         let div3 = $("<div>").addClass("col-1");
-        let button = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").attr({ "onClick": "logout()" });
+        let button = $("<button>").addClass("btn").addClass("btn-primary").addClass("btn-block").attr({ "onClick": "logout()" }).text("Esci");
         let el = $("<span>").addClass("material-symbols-outlined");
         el.text("logout");
         button.append(el);
