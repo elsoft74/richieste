@@ -5,9 +5,9 @@
     <script src="bootstrap/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
     <script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="css/style.css">
     <link href="css/tabulator.min.css" rel="stylesheet">
     <link href="css/tabulator_materialize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <script type="text/javascript" src="js/moment-with-locales.js"></script>
     <script type="text/javascript" src="js/luxon.min.js"></script>
     <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>

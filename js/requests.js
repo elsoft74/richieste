@@ -17,6 +17,12 @@ function showRequests(richieste, user) {
         ],
         columns: [                 //define the table columns
             { title: "#", field: "id", width: 10, editor: false, hozAlign: "center", visible: false },
+            {
+                title: "", width: 10, hozAlign: "center", editor: false, visible:user.permissions.canEdit, cellClick: (user.permissions.canEdit)?showElementUpdate:null, formatter: function (cell, formatterParams, onRendered) {
+
+                    return '<span class="material-symbols-outlined">edit</span>';
+                },
+            },
             { title: "Nome", field: "nome", editor: false },
             { title: "Cognome", field: "cognome", editor: false, headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
             { title: "Codice Fiscale", field: "codiceFiscale", editor: false, hozAlign: "center", headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
@@ -34,8 +40,11 @@ function showRequests(richieste, user) {
             // {
             //     title: "Avanzamento",
             //     columns: [
-            { title: "Giorni dalla richiesta", field: "giorni", editor: false, hozAlign: "center" },
-            { title: "Giorni dalla modifica", field: "giorni2", editor: false, hozAlign: "center" },
+            { title: "Giorni trascorsi",columns:[
+                { title: "dalla richiesta", field: "giorni", editor: false, hozAlign: "center" },
+                { title: "dalla modifica", field: "giorni2", editor: false, hozAlign: "center" },
+            ]},
+            
             {
                 title: "Fase", field: "fase", editor: false, hozAlign: "center", editor: false, headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like",/*headerFilter: true, headerFilterParams: {
                     values: function (cell, formatterParams, onRendered) {
@@ -62,8 +71,10 @@ function showRequests(richieste, user) {
                 }
             },
             { title: "Note", field: "note", editor: false, formatter: "textarea"/*, cellClick: cellPopupFormatter */ },
+            (user.permissions.canViewDetails)?
             {
                 title: "Creata",
+                visible: user.permissions.canViewDetails,
                 columns: [{
                     title: "il", field: "created", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
                         //inputFormat:"YYY-MM-DD HH:mm:ss",
@@ -73,9 +84,11 @@ function showRequests(richieste, user) {
                     }
                 },
                 { title: "da", field: "createdByNomeCognome", editor: false },]
-            },
+            }:{visible:false},
+            (user.permissions.canViewDetails)?
             {
                 title: "Aggiornata",
+                visible: user.permissions.canViewDetails,
                 columns: [{
                     title: "il", field: "lastUpdate", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
                         //inputFormat:"YYY-MM-DD HH:mm:ss",
@@ -85,24 +98,18 @@ function showRequests(richieste, user) {
                     }
                 },
                 { title: "da", field: "lastUpdateByNomeCognome", editor: false },]
-            },
-            {
-                title: "", width: 10, hozAlign: "center", editor: false, cellClick: showElementUpdate, formatter: function (cell, formatterParams, onRendered) {
-
-                    return '<span class="material-symbols-outlined">edit</span>';
-                },
-            }
-
-
-
+            }:{visible:false}
+            
         ],
     });
 
-    let button = $("<button>").addClass("btn btn-primary btn-block").attr({ "id": "dataDownLoadButton" }).html("Scarica tabella");
-    $("#menubuttons").append(button);
-    document.getElementById("dataDownLoadButton").addEventListener("click", function () {
-        table.download("xlsx", "data.xlsx", { sheetName: "Export" });
-    });
+    if(user.permissions.canExport){
+        let button = $("<button>").addClass("btn btn-primary btn-block").attr({ "id": "dataDownLoadButton" }).html("Scarica tabella");
+        $("#menubuttons").append(button);
+        document.getElementById("dataDownLoadButton").addEventListener("click", function () {
+            table.download("xlsx", "data.xlsx", { sheetName: "Export" });
+        });
+    }
 
 }
 

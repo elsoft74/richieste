@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Mag 22, 2022 alle 17:11
+-- Creato il: Mag 23, 2022 alle 23:44
 -- Versione del server: 10.5.15-MariaDB-0+deb11u1
 -- Versione PHP: 7.4.28
 
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `fasi` (
   `id` int(11) NOT NULL,
-  `descrizione` varchar(30) NOT NULL,
+  `descrizione` varchar(60) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
-  `val` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `val` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -49,14 +49,14 @@ CREATE TABLE `richieste` (
   `numero` varchar(30) NOT NULL,
   `data_ric` datetime NOT NULL,
   `fase` int(11) NOT NULL,
-  `motivo` varchar(50) NOT NULL,
+  `motivo` text NOT NULL,
   `note` text NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
   `last_update` timestamp NULL DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `is_active` tinyint(4) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -69,7 +69,7 @@ CREATE TABLE `roles` (
   `descrizione` varchar(20) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `permissions` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -84,8 +84,10 @@ CREATE TABLE `users` (
   `nome` varchar(25) NOT NULL,
   `cognome` varchar(25) NOT NULL,
   `role_id` int(11) NOT NULL,
-  `is_active` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `is_active` tinyint(1) NOT NULL,
+  `password_need_to_be_changed` tinyint(1) NOT NULL,
+  `email` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indici per le tabelle scaricate
@@ -116,6 +118,7 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
   ADD KEY `role_id` (`role_id`);
 
 --
