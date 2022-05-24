@@ -46,7 +46,7 @@ function showRequests(richieste, user) {
             ]},
             
             {
-                title: "Fase", field: "fase", editor: false, hozAlign: "center", editor: false, headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like",/*headerFilter: true, headerFilterParams: {
+                title: "Fase", field: "fase", editor: false, hozAlign: "center", editor: false, headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, /*headerFilterFunc: "like",*/headerFilter: true/*, headerFilterParams: {
                     values: function (cell, formatterParams, onRendered) {
                         var out = [];
                         let fase = { "": "Tutte" };
@@ -59,7 +59,7 @@ function showRequests(richieste, user) {
                         return out;
 
                     }
-                },*/ formatter: function (cell, formatterParams, onRendered) {
+                }*/, formatter: function (cell, formatterParams, onRendered) {
                     let val = cell.getValue();
                     let out = "FASE NON TROVATA";
                     fasi.forEach(el => {
@@ -116,26 +116,19 @@ function showRequests(richieste, user) {
 
 function inserisci() {
     let richiesta = {};
-    let err = '';
     richiesta.nome = $("#nome").val().trim();
     richiesta.cognome = $("#cognome").val().trim();
     richiesta.codiceFiscale = $("#codiceFiscale").val().trim();
     richiesta.email = $("#email").val().trim();
     richiesta.numero = $("#numero").val().trim();
-    richiesta.data = $("#data").val();
+    richiesta.dataRic = $("#data").val();
     richiesta.fase = $("#fase").val();
     richiesta.motivo = $("#motivo").val().trim();
     richiesta.note = $("#note").val().trim();
     richiesta.createdBy = "" + lu.id;
-    if (richiesta.numero == '') {
-        err += "Il numero della richiesta è obbligatorio\n";
-    }
-    if (richiesta.codiceFiscale == '') {
-        err += "Il codice fiscale è obbligatorio\n";
-    }
-    if (richiesta.data == '') {
-        err += "La data è obbligatoria\n";
-    }
+    
+    let err=checkDatiObbligatori(richiesta);
+
     if (err != '') {
         alert(err);
     } else {
@@ -161,7 +154,6 @@ function inserisci() {
 
 function aggiorna() {
     let richiesta = {};
-    let err = '';
     richiesta.id = $("#editId").val().trim();
     richiesta.nome = $("#editNome").val().trim();
     richiesta.cognome = $("#editCognome").val().trim();
@@ -173,12 +165,9 @@ function aggiorna() {
     richiesta.motivo = $("#editMotivo").val().trim();
     richiesta.note = $("#editNote").val().trim();
     richiesta.lastUpdateBy = "" + lu.id;
-    if (richiesta.numero == '') {
-        err += "Il numero della richiesta è obbligatorio\n";
-    }
-    if (richiesta.codiceFiscale == '') {
-        err += "Il codice fiscale è obbligatorio\n";
-    }
+
+    let err=checkDatiObbligatori(richiesta);
+
     if (err != '') {
         alert(err);
     } else {
@@ -282,3 +271,17 @@ var cellPopupFormatter = function (e, row, onRendered) {
     // return container;
     alert(data.note);
 };
+
+function checkDatiObbligatori(richiesta){
+    let out='';
+    // if (richiesta.numero == '') {
+    //     out += "Il numero della richiesta è obbligatorio\n";
+    // }
+    if (richiesta.codiceFiscale == '') {
+        out += "Il codice fiscale è obbligatorio\n";
+    }
+    if (richiesta.dataRic == '') {
+      out += "La data è obbligatoria\n";
+    }
+    return out;
+    }
