@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Mag 23, 2022 alle 23:44
+-- Creato il: Mag 26, 2022 alle 18:56
 -- Versione del server: 10.5.15-MariaDB-0+deb11u1
 -- Versione PHP: 7.4.28
 
@@ -48,6 +48,7 @@ CREATE TABLE `richieste` (
   `email` varchar(50) NOT NULL,
   `numero` varchar(30) NOT NULL,
   `data_ric` datetime NOT NULL,
+  `data_ultima_com` datetime DEFAULT NULL,
   `fase` int(11) NOT NULL,
   `motivo` text NOT NULL,
   `note` text NOT NULL,

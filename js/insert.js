@@ -91,7 +91,7 @@ function buildInsertForm(target) {
         divFormGroup.append(el);
     
         let div4 = $("<div>").addClass("col").addClass("date");
-        el = $("<label>").text("Data Ricezione");
+        el = $("<label>").text("Data Ricezione istanza");
         div4.append(el);
         el = $("<input>").addClass("form-control").attr({ "type": "date", "id": attrs.data1 });
         div4.append(el);
@@ -102,7 +102,7 @@ function buildInsertForm(target) {
         divFormGroup.append(div4);
         if("edit"==target){
             div4 = $("<div>").addClass("col").addClass("date");
-            el = $("<label>").text("Data Ultima comunicazione");
+            el = $("<label>").text("Data nostra risposta");
             div4.append(el);
             el = $("<input>").addClass("form-control").attr({ "type": "date", "id": attrs.data2 });
             div4.append(el);
