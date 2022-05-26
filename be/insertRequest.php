@@ -17,16 +17,18 @@
             $ric->setCognome($tmp->cognome);
             $ric->setCodiceFiscale($tmp->codiceFiscale);
             $ric->setEmail($tmp->email);
-            $ric->setDataRic($tmp->data);
+            $ric->setDataRic($tmp->dataRic);
+            $ric->setDataUltimaComunicazione($tmp->dataUltimaCom);
             $ric->setNumero($tmp->numero);
             $ric->setFase($tmp->fase);
             $ric->setMotivo($tmp->motivo);
             $ric->setNote($tmp->note);
             $ric->setCreatedBy($tmp->createdBy);
+            $tmp=$ric;
 
             $out=$ric->insertRequest();
             //$ric->getDetails();
-            $out->debug=print_r($ric,true);
+            $out->debug=print_r($tmp,true);
             // $out->status="OK";
         }
     } catch (Exception $ex) {

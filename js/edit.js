@@ -11,6 +11,7 @@ function cleanEdit() {
     $("#editEmail").val("");
     $("#editNumero").val("");
     $("#editData").val("");
+    $("#editDataUltimaComunicazione").val("");
     $("#editFase").val("");
     $("#editMotivo").val("");
     $("#editNote").val("");

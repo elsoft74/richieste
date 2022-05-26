@@ -28,21 +28,27 @@ function showRequests(richieste, user) {
             { title: "Codice Fiscale", field: "codiceFiscale", editor: false, hozAlign: "center", headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
             { title: "e-mail", field: "email", editor: false },
             { title: "Numero Richiesta", field: "numero", editor: false, hozAlign: "center", headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
-            {
-                title: "Data Ricezione", field: "dataRic", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
-                    //inputFormat:"YYY-MM-DD HH:mm:ss",
-                    outputFormat: "dd-MM-yyyy",
-                    invalidPlaceholder: "(data non valida)",
-                    timezone: "Europe/Rome",
-                }
+            {title: "Data", columns:[
+                    {title: "Ricezione", field: "dataRic", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
+                        //inputFormat:"YYY-MM-DD HH:mm:ss",
+                        outputFormat: "dd-MM-yyyy",
+                        invalidPlaceholder: "(data non valida)",
+                        timezone: "Europe/Rome",
+                    }},
+                    {title: "Ultima Com.", field: "dataUltimaCom", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
+                        //inputFormat:"YYY-MM-DD HH:mm:ss",
+                        outputFormat: "dd-MM-yyyy",
+                        invalidPlaceholder: "(data non valida)",
+                        timezone: "Europe/Rome",
+                    }
+                }]
             },
-            { title: "Motivo", field: "motivo", editor: false, formatter: "textarea" },
             // {
             //     title: "Avanzamento",
             //     columns: [
             { title: "Giorni trascorsi",columns:[
                 { title: "dalla richiesta", field: "giorni", editor: false, hozAlign: "center" },
-                { title: "dalla modifica", field: "giorni2", editor: false, hozAlign: "center" },
+                { title: "dall'ultima comunicazione", field: "giorni2", editor: false, hozAlign: "center" },
             ]},
             
             {
@@ -70,6 +76,7 @@ function showRequests(richieste, user) {
                     return out;
                 }
             },
+            { title: "Motivo", field: "motivo", editor: false, formatter: "textarea" },
             { title: "Note", field: "note", editor: false, formatter: "textarea"/*, cellClick: cellPopupFormatter */ },
             (user.permissions.canViewDetails)?
             {
@@ -122,6 +129,7 @@ function inserisci() {
     richiesta.email = $("#email").val().trim();
     richiesta.numero = $("#numero").val().trim();
     richiesta.dataRic = $("#data").val();
+    richiesta.dataUltimaCom = $("#data").val();
     richiesta.fase = $("#fase").val();
     richiesta.motivo = $("#motivo").val().trim();
     richiesta.note = $("#note").val().trim();
@@ -161,6 +169,7 @@ function aggiorna() {
     richiesta.email = $("#editEmail").val().trim();
     richiesta.numero = $("#editNumero").val().trim();
     richiesta.dataRic = $("#editData").val();
+    richiesta.dataUltimaCom = $("#editDataUltimaComunicazione").val();
     richiesta.fase = $("#editFase").val();
     richiesta.motivo = $("#editMotivo").val().trim();
     richiesta.note = $("#editNote").val().trim();

@@ -8,6 +8,7 @@ class Richiesta
     public $email;
     public $numero;
     public $dataRic;
+    public $dataUltimaCom;
     public $fase;
     public $motivo;
     public $note;
@@ -95,6 +96,16 @@ class Richiesta
     public function getDataRic()
     {
         return $this->dataRic;
+    }
+
+    public function setDataUltimaComunicazione($val)
+    {
+        $this->dataUltimaCom = $val;
+    }
+
+    public function getDataUltimaComunicazione()
+    {
+        return $this->dataUltimaCom;
     }
 
     public function setFase($val)
@@ -231,6 +242,7 @@ class Richiesta
                             r.email AS email,
                             r.numero AS numero,
                             r.data_ric AS data_ric,
+                            r.data_ultima_com AS data_ultima_com,
                             r.fase AS fase,
                             r.motivo AS motivo,
                             r.note as note,
@@ -242,7 +254,7 @@ class Richiesta
                             CONCAT(u2.nome," ",u2.cognome) AS last_update_by_nome_cognome,
                             r.is_active AS is_active,
                             DATEDIFF(CURRENT_DATE(),r.data_ric) AS giorni,
-                            DATEDIFF(CURRENT_DATE(),r.last_update) AS giorni2
+                            DATEDIFF(CURRENT_DATE(),r.data_ultima_com) AS giorni2
                             FROM `richieste` AS r
                             LEFT JOIN `users` AS u1 ON r.`created_by`= u1.ID
                             LEFT JOIN `users` AS u2 ON r.`updated_by`= u2.ID
@@ -265,6 +277,7 @@ class Richiesta
                         $this->setEmail($res["email"]);
                         $this->setNumero($res["numero"]);
                         $this->setDataRic($res["data_ric"]);
+                        $this->setDataUltimaComunicazione($res["data_ultima_com"]);
                         $this->setFase($res["fase"]);
                         $this->setMotivo($res["motivo"]);
                         $this->setNote($res["note"]);
@@ -350,11 +363,11 @@ class Richiesta
                 try {
                     $query = "SELECT COUNT(*) AS presenti FROM `richieste`
                     WHERE `is_active` = 1 AND
-                    (UPPER(`codicefiscale`)=UPPER(:codicefiscale) OR `numero`=:numero)";
+                    UPPER(`codicefiscale`)=UPPER(:codicefiscale)";
 
                     $stmt = $conn->prepare($query);
                     $stmt->bindParam(':codicefiscale', $this->codiceFiscale, PDO::PARAM_STR);
-                    $stmt->bindParam(':numero', $this->numero, PDO::PARAM_STR);
+                    //$stmt->bindParam(':numero', $this->numero, PDO::PARAM_STR);
                     $stmt->execute();
 
                     $res = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -367,6 +380,7 @@ class Richiesta
                             `email`,
                             `numero`,
                             `data_ric`,
+                            `data_ultima_com`,
                             `fase`,
                             `motivo`,
                             `note`,
@@ -377,6 +391,7 @@ class Richiesta
                             :email,
                             :numero,
                             :data_ric,
+                            :data_ultima_com,
                             :fase,
                             :motivo,
                             :note,
@@ -389,6 +404,7 @@ class Richiesta
                         $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
                         $stmt->bindParam(':numero', $this->numero, PDO::PARAM_STR);
                         $stmt->bindParam(':data_ric', $this->dataRic, PDO::PARAM_STR);
+                        $stmt->bindParam(':data_ultima_com', $this->dataUltimaCom, PDO::PARAM_STR);
                         $stmt->bindParam(':fase', $this->fase, PDO::PARAM_INT);
                         $stmt->bindParam(':motivo', $this->motivo, PDO::PARAM_STR);
                         $stmt->bindParam(':note', $this->note, PDO::PARAM_STR);
@@ -402,6 +418,7 @@ class Richiesta
                             $out->status = "OK";
                         } else {
                             $out->errorInfo=$conn->errorInfo();
+			    $out->errorCode=$conn->errorCode();
                             throw new Exception("Errore d'inserimento");
                         }
                     } else {
@@ -441,6 +458,7 @@ class Richiesta
                             `email`=:email,
                             `numero`=:numero,
                             `data_ric`=:data_ric,
+                            `data_ultima_com`=:data_ultima_com,
                             `fase`=:fase,
                             `motivo`=:motivo,
                             `note`=:note,
@@ -456,6 +474,7 @@ class Richiesta
                         $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
                         $stmt->bindParam(':numero', $this->numero, PDO::PARAM_STR);
                         $stmt->bindParam(':data_ric', $this->dataRic, PDO::PARAM_STR);
+                        $stmt->bindParam(':data_ultima_com', $this->dataUltimaCom, PDO::PARAM_STR);
                         $stmt->bindParam(':fase', $this->fase, PDO::PARAM_INT);
                         $stmt->bindParam(':motivo', $this->motivo, PDO::PARAM_STR);
                         $stmt->bindParam(':note', $this->note, PDO::PARAM_STR);

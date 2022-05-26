@@ -13,7 +13,7 @@ function buildInsertForm(target) {
                 codiceFiscale:"codiceFiscale",
                 email:"email",
                 numero:"numero",
-                data:"data",
+                data1:"data",
                 fase:"fase",
                 motivo:"motivo",
                 note:"note",
@@ -33,7 +33,8 @@ function buildInsertForm(target) {
                 codiceFiscale:"editCodiceFiscale",
                 email:"editEmail",
                 numero:"editNumero",
-                data:"editData",
+                data1:"editData",
+                data2:"editDataUltimaComunicazione",
                 fase:"editFase",
                 motivo:"editMotivo",
                 note:"editNote",
@@ -92,13 +93,26 @@ function buildInsertForm(target) {
         let div4 = $("<div>").addClass("col").addClass("date");
         el = $("<label>").text("Data Ricezione");
         div4.append(el);
-        el = $("<input>").addClass("form-control").attr({ "type": "date", "id": attrs.data });
+        el = $("<input>").addClass("form-control").attr({ "type": "date", "id": attrs.data1 });
         div4.append(el);
         let div5 = $("<div>").addClass("input-group-addon");
         el = $("<span>").addClass("glyphicon glyphicon-th");
         div5.append(el);
         div4.append(div5);
         divFormGroup.append(div4);
+        if("edit"==target){
+            div4 = $("<div>").addClass("col").addClass("date");
+            el = $("<label>").text("Data Ultima comunicazione");
+            div4.append(el);
+            el = $("<input>").addClass("form-control").attr({ "type": "date", "id": attrs.data2 });
+            div4.append(el);
+            div5.append(el);
+            div4.append(div5);
+            divFormGroup.append(div4);
+
+        }
+        
+        
         form.append(divFormGroup);
 
         divFormGroup = $("<div>").addClass("form-group");
