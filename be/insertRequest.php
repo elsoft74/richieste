@@ -18,7 +18,7 @@
             $ric->setCodiceFiscale($tmp->codiceFiscale);
             $ric->setEmail($tmp->email);
             $ric->setDataRic($tmp->dataRic);
-            $ric->setDataUltimaComunicazione($tmp->dataUltimaCom);
+            $ric->setDataUltimaComunicazione(($tmp->dataUltimaCom=="")?null:$tmp->dataUltimaCom);
             $ric->setNumero($tmp->numero);
             $ric->setFase($tmp->fase);
             $ric->setMotivo($tmp->motivo);

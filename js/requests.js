@@ -129,7 +129,7 @@ function inserisci() {
     richiesta.email = $("#email").val().trim();
     richiesta.numero = $("#numero").val().trim();
     richiesta.dataRic = $("#data").val();
-    richiesta.dataUltimaCom = ($("#editDataUltimaComunicazione").val()=='')?$("#editDataUltimaComunicazione").val():null;
+    richiesta.dataUltimaCom = ($("#dataUltimaComunicazione").val()=='')?null:$("#dataUltimaComunicazione").val();
     richiesta.fase = $("#fase").val();
     richiesta.motivo = $("#motivo").val().trim();
     richiesta.note = $("#note").val().trim();
