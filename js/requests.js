@@ -129,7 +129,7 @@ function inserisci() {
     richiesta.email = $("#email").val().trim();
     richiesta.numero = $("#numero").val().trim();
     richiesta.dataRic = $("#data").val();
-    richiesta.dataUltimaCom = $("#data").val();
+    richiesta.dataUltimaCom = ($("#editDataUltimaComunicazione").val()=='')?$("#editDataUltimaComunicazione").val():null;
     richiesta.fase = $("#fase").val();
     richiesta.motivo = $("#motivo").val().trim();
     richiesta.note = $("#note").val().trim();
@@ -169,7 +169,7 @@ function aggiorna() {
     richiesta.email = $("#editEmail").val().trim();
     richiesta.numero = $("#editNumero").val().trim();
     richiesta.dataRic = $("#editData").val();
-    richiesta.dataUltimaCom = $("#editDataUltimaComunicazione").val();
+    richiesta.dataUltimaCom = ($("#editDataUltimaComunicazione").val()=='')?null:$("#editDataUltimaComunicazione").val();
     richiesta.fase = $("#editFase").val();
     richiesta.motivo = $("#editMotivo").val().trim();
     richiesta.note = $("#editNote").val().trim();
@@ -213,6 +213,7 @@ var showElementUpdate = function (e, row) {
     $("#editEmail").val(element.email);
     $("#editNumero").val(element.numero);
     $("#editData").val(((new luxon.DateTime.fromSQL(element.dataRic)).toFormat("yyyy-MM-dd")));
+    $("#editDataUltimaComunicazione").val(((new luxon.DateTime.fromSQL(element.dataUltimaCom)).toFormat("yyyy-MM-dd")));
     $("#editFase").val(element.fase);
     $("#editMotivo").val(element.motivo);
     $("#editNote").val(element.note);

@@ -13,6 +13,7 @@ function buildInsertForm(target) {
                 codiceFiscale:"codiceFiscale",
                 email:"email",
                 numero:"numero",
+                data2:"dataUltimaComunicazione",
                 data1:"data",
                 fase:"fase",
                 motivo:"motivo",
@@ -100,17 +101,15 @@ function buildInsertForm(target) {
         div5.append(el);
         div4.append(div5);
         divFormGroup.append(div4);
-        if("edit"==target){
-            div4 = $("<div>").addClass("col").addClass("date");
-            el = $("<label>").text("Data nostra risposta");
-            div4.append(el);
-            el = $("<input>").addClass("form-control").attr({ "type": "date", "id": attrs.data2 });
-            div4.append(el);
-            div5.append(el);
-            div4.append(div5);
-            divFormGroup.append(div4);
-
-        }
+        
+        div4 = $("<div>").addClass("col").addClass("date");
+        el = $("<label>").text("Data nostra risposta");
+        div4.append(el);
+        el = $("<input>").addClass("form-control").attr({ "type": "date", "id": attrs.data2 });
+        div4.append(el);
+        div5.append(el);
+        div4.append(div5);
+        divFormGroup.append(div4);
         
         
         form.append(divFormGroup);
