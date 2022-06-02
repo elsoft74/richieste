@@ -20,6 +20,7 @@
     <script type="text/javascript" src="js/login.js"></script>
     <script type="text/javascript" src="js/insert.js"></script>
     <script type="text/javascript" src="js/edit.js"></script>
+    <script type="text/javascropt" src="js/sweetalert2.all.min.js"></script>
 
 </head>
 

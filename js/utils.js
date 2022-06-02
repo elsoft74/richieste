@@ -72,3 +72,7 @@ function formattaData(data, lung) { // lung se impostato a true fa ottenere una 
 function hideAll(){
     $(".sections").hide();
 }
+
+function checkUserPermission(user,permissionToCheck){
+    return (user.permissions.hasOwnProperty(permissionToCheck) && user.permissions[permissionToCheck]);
+}

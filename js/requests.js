@@ -18,9 +18,15 @@ function showRequests(richieste, user) {
         columns: [                 //define the table columns
             { title: "#", field: "id", width: 10, editor: false, hozAlign: "center", visible: false },
             {
-                title: "", width: 10, hozAlign: "center", editor: false, visible:user.permissions.canEdit, cellClick: (user.permissions.canEdit)?showElementUpdate:null, formatter: function (cell, formatterParams, onRendered) {
+                title: "", width: 10, hozAlign: "center", editor: false, visible:checkUserPermission(user,"canEdit"), cellClick: checkUserPermission(user,"canEdit")?showElementUpdate:null, formatter: function (cell, formatterParams, onRendered) {
 
                     return '<span class="material-symbols-outlined">edit</span>';
+                },
+            },
+            {
+                title: "", width: 10, hozAlign: "center", editor: false, visible:checkUserPermission(user,"canDelete"), cellClick: checkUserPermission(user,"canDelete")?deleteElement:null, formatter: function (cell, formatterParams, onRendered) {
+
+                    return '<span class="material-symbols-outlined">delete</span>';
                 },
             },
             { title: "Nome", field: "nome", editor: false },
@@ -110,7 +116,7 @@ function showRequests(richieste, user) {
         ],
     });
 
-    if(user.permissions.canExport){
+    if (checkUserPermission(user,"canExport")){
         let button = $("<button>").addClass("btn btn-primary btn-block").attr({ "id": "dataDownLoadButton" }).html("Scarica tabella");
         $("#menubuttons").append(button);
         document.getElementById("dataDownLoadButton").addEventListener("click", function () {
@@ -217,6 +223,28 @@ var showElementUpdate = function (e, row) {
     $("#editFase").val(element.fase);
     $("#editMotivo").val(element.motivo);
     $("#editNote").val(element.note);
+}
+
+var deleteElement = function (e, row) {
+    var element = row.getData();
+    Swal.fire({
+        title: 'Sicuro?',
+        text: "Confermando cancellerai la scheda di:"+element.nome+" "+element.cognome+"\n"+element.codiceFiscale+"\n"+"Ricevuta il:"+element.dataRic,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Annulla',
+        confirmButtonText: 'Conferma'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
+      })
 }
 
 function readRequests(toBeCompleted) {
