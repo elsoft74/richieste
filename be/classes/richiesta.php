@@ -19,6 +19,8 @@ class Richiesta
     public $lastUpdateBy;
     public $lastUpdateByNomeCognome;
     public $isActive;
+    public $deletedBy;
+    public $deletedDate;
     public $giorni;
     public $giorni2;
 
@@ -226,6 +228,26 @@ class Richiesta
     public function getGiorni2()
     {
         return $this->giorni2;
+    }
+
+    public function setdeletedBy($val)
+    {
+        $this->deletedBy = $val;
+    }
+
+    public function getdeletedBy()
+    {
+        return $this->deletedBy;
+    }
+
+    public function setdeletedDate($val)
+    {
+        $this->deletedDate = $val;
+    }
+
+    public function getdeletedDate()
+    {
+        return $this->deletedDate;
     }
 
     public function getDetails()
@@ -463,7 +485,10 @@ class Richiesta
                             `motivo`=:motivo,
                             `note`=:note,
                             `last_update`=:last_update,
-                            `updated_by`=:updated_by
+                            `updated_by`=:updated_by,
+                            `deleted_by`=:deleted_by,
+                            `deleted_date`=:deleted_date,
+                            `is_active`=:is_active
                             WHERE `id`=:id";
 
                         $stmt = $conn->prepare($query);
@@ -480,6 +505,9 @@ class Richiesta
                         $stmt->bindParam(':note', $this->note, PDO::PARAM_STR);
                         $stmt->bindParam(':last_update', $this->lastUpdate, PDO::PARAM_STR);
                         $stmt->bindParam(':updated_by', $this->lastUpdateBy, PDO::PARAM_INT);
+                        $stmt->bindParam(':deleted_by', $this->deletedBy, PDO::PARAM_INT);
+                        $stmt->bindParam(':deleted_date', $this->deletedDate, PDO::PARAM_STR);
+                        $stmt->bindParam(':is_active', $this->isActive, PDO::PARAM_INT);
                         $stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
 
                         $stmt->execute();
@@ -491,6 +519,7 @@ class Richiesta
 
                         $out->status = "OK";
                     } catch (Exception $ex) {
+                        $out->status="KO";
                         $out->error = $ex->getMessage();
                     }
                 } else {
@@ -501,6 +530,7 @@ class Richiesta
             }
         } catch (Exception $ex) {
             $conn = null;
+            $out->status="KO";
             $out->error = $ex->getMessage();
         }
         // file_put_contents("log/dbtest.log","[".(new DateTime("now"))->format("Y-m-d H:i")."] ".print_r($out)."\n",FILE_APPEND);

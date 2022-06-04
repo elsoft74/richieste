@@ -16,17 +16,17 @@ function showRequests(richieste, user) {
             { column: "dataRic", dir: "asc" },
         ],
         columns: [                 //define the table columns
-            { title: "#", field: "id", width: 10, editor: false, hozAlign: "center", visible: false },
+            { title: "#", field: "id", width: 10, editor: false, hozAlign: "center", visible: checkUserPermission(user, "canViewRequestId") },
             {
-                title: "", width: 10, hozAlign: "center", editor: false, visible:checkUserPermission(user,"canEdit"), cellClick: checkUserPermission(user,"canEdit")?showElementUpdate:null, formatter: function (cell, formatterParams, onRendered) {
+                title: "", width: 10, hozAlign: "center", editor: false, visible: checkUserPermission(user, "canEdit"), cellClick: checkUserPermission(user, "canEdit") ? showElementUpdate : null, formatter: function (cell, formatterParams, onRendered) {
 
-                    return '<span class="material-symbols-outlined">edit</span>';
+                    return '<span class="material-symbols-outlined" style="color: green">edit</span>';
                 },
             },
             {
-                title: "", width: 10, hozAlign: "center", editor: false, visible:checkUserPermission(user,"canDelete"), cellClick: checkUserPermission(user,"canDelete")?deleteElement:null, formatter: function (cell, formatterParams, onRendered) {
+                title: "", width: 10, hozAlign: "center", editor: false, visible: checkUserPermission(user, "canDelete"), cellClick: checkUserPermission(user, "canDelete") ? deleteElement : null, formatter: function (cell, formatterParams, onRendered) {
 
-                    return '<span class="material-symbols-outlined">delete</span>';
+                    return '<span class="material-symbols-outlined" style="color: red">delete</span>';
                 },
             },
             { title: "Nome", field: "nome", editor: false },
@@ -34,29 +34,35 @@ function showRequests(richieste, user) {
             { title: "Codice Fiscale", field: "codiceFiscale", editor: false, hozAlign: "center", headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
             { title: "e-mail", field: "email", editor: false },
             { title: "Numero Richiesta", field: "numero", editor: false, hozAlign: "center", headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
-            { title: "Data", columns:[
-                    {title: "Ricezione", field: "dataRic", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
-                        //inputFormat:"YYY-MM-DD HH:mm:ss",
-                        outputFormat: "dd-MM-yyyy",
-                        invalidPlaceholder: "(data non valida)",
-                        timezone: "Europe/Rome",
-                    }},
-                    {title: "Nostra risposta", field: "dataUltimaCom", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
-                        //inputFormat:"YYY-MM-DD HH:mm:ss",
-                        outputFormat: "dd-MM-yyyy",
-                        invalidPlaceholder: "(data non valida)",
-                        timezone: "Europe/Rome",
-                    }
-                }]
+            {
+                title: "Data", columns: [
+                    {
+                        title: "Ricezione", field: "dataRic", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
+                            //inputFormat:"YYY-MM-DD HH:mm:ss",
+                            outputFormat: "dd-MM-yyyy",
+                            invalidPlaceholder: "(data non valida)",
+                            timezone: "Europe/Rome",
+                        }
+                    },
+                    {
+                        title: "Nostra risposta", field: "dataUltimaCom", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
+                            //inputFormat:"YYY-MM-DD HH:mm:ss",
+                            outputFormat: "dd-MM-yyyy",
+                            invalidPlaceholder: "(data non valida)",
+                            timezone: "Europe/Rome",
+                        }
+                    }]
             },
             // {
             //     title: "Avanzamento",
             //     columns: [
-            { title: "Giorni trascorsi",columns:[
-                { title: "dalla richiesta", field: "giorni", editor: false, hozAlign: "center" },
-                { title: "dalla nostra risposta", field: "giorni2", editor: false, hozAlign: "center" },
-            ]},
-            
+            {
+                title: "Giorni trascorsi", columns: [
+                    { title: "dalla richiesta", field: "giorni", editor: false, hozAlign: "center" },
+                    { title: "dalla nostra risposta", field: "giorni2", editor: false, hozAlign: "center" },
+                ]
+            },
+
             {
                 title: "Fase", field: "fase", editor: false, hozAlign: "center", editor: false, headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, /*headerFilterFunc: "like",*/headerFilter: true/*, headerFilterParams: {
                     values: function (cell, formatterParams, onRendered) {
@@ -84,39 +90,39 @@ function showRequests(richieste, user) {
             },
             { title: "Motivo", field: "motivo", editor: false, formatter: "textarea" },
             { title: "Note", field: "note", editor: false, formatter: "textarea"/*, cellClick: cellPopupFormatter */ },
-            (user.permissions.canViewDetails)?
-            {
-                title: "Creata",
-                visible: user.permissions.canViewDetails,
-                columns: [{
-                    title: "il", field: "created", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
-                        //inputFormat:"YYY-MM-DD HH:mm:ss",
-                        outputFormat: "dd-MM-yyyy HH:mm:ss",
-                        invalidPlaceholder: "(data non valida)",
-                        timezone: "Europe/Rome",
-                    }
-                },
-                { title: "da", field: "createdByNomeCognome", editor: false },]
-            }:{visible:false},
-            (user.permissions.canViewDetails)?
-            {
-                title: "Aggiornata",
-                visible: user.permissions.canViewDetails,
-                columns: [{
-                    title: "il", field: "lastUpdate", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
-                        //inputFormat:"YYY-MM-DD HH:mm:ss",
-                        outputFormat: "dd-MM-yyyy HH:mm:ss",
-                        invalidPlaceholder: "(data non valida)",
-                        timezone: "Europe/Rome",
-                    }
-                },
-                { title: "da", field: "lastUpdateByNomeCognome", editor: false },]
-            }:{visible:false}
-            
+            (user.permissions.canViewDetails) ?
+                {
+                    title: "Creata",
+                    visible: user.permissions.canViewDetails,
+                    columns: [{
+                        title: "il", field: "created", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
+                            //inputFormat:"YYY-MM-DD HH:mm:ss",
+                            outputFormat: "dd-MM-yyyy HH:mm:ss",
+                            invalidPlaceholder: "(data non valida)",
+                            timezone: "Europe/Rome",
+                        }
+                    },
+                    { title: "da", field: "createdByNomeCognome", editor: false },]
+                } : { visible: false },
+            (user.permissions.canViewDetails) ?
+                {
+                    title: "Aggiornata",
+                    visible: user.permissions.canViewDetails,
+                    columns: [{
+                        title: "il", field: "lastUpdate", editor: false, hozAlign: "center", formatter: "datetime", formatterParams: {
+                            //inputFormat:"YYY-MM-DD HH:mm:ss",
+                            outputFormat: "dd-MM-yyyy HH:mm:ss",
+                            invalidPlaceholder: "(data non valida)",
+                            timezone: "Europe/Rome",
+                        }
+                    },
+                    { title: "da", field: "lastUpdateByNomeCognome", editor: false },]
+                } : { visible: false }
+
         ],
     });
 
-    if (checkUserPermission(user,"canExport")){
+    if (checkUserPermission(user, "canExport")) {
         let button = $("<button>").addClass("btn btn-primary btn-block").attr({ "id": "dataDownLoadButton" }).html("Scarica tabella");
         $("#menubuttons").append(button);
         document.getElementById("dataDownLoadButton").addEventListener("click", function () {
@@ -135,13 +141,13 @@ function inserisci() {
     richiesta.email = $("#email").val().trim();
     richiesta.numero = $("#numero").val().trim();
     richiesta.dataRic = $("#data").val();
-    richiesta.dataUltimaCom = ($("#dataUltimaComunicazione").val()=='')?null:$("#dataUltimaComunicazione").val();
+    richiesta.dataUltimaCom = ($("#dataUltimaComunicazione").val() == '') ? null : $("#dataUltimaComunicazione").val();
     richiesta.fase = $("#fase").val();
     richiesta.motivo = $("#motivo").val().trim();
     richiesta.note = $("#note").val().trim();
     richiesta.createdBy = "" + lu.id;
-    
-    let err=checkDatiObbligatori(richiesta);
+
+    let err = checkDatiObbligatori(richiesta);
 
     if (err != '') {
         alert(err);
@@ -175,13 +181,13 @@ function aggiorna() {
     richiesta.email = $("#editEmail").val().trim();
     richiesta.numero = $("#editNumero").val().trim();
     richiesta.dataRic = $("#editData").val();
-    richiesta.dataUltimaCom = ($("#editDataUltimaComunicazione").val()=='')?null:$("#editDataUltimaComunicazione").val();
+    richiesta.dataUltimaCom = ($("#editDataUltimaComunicazione").val() == '') ? null : $("#editDataUltimaComunicazione").val();
     richiesta.fase = $("#editFase").val();
     richiesta.motivo = $("#editMotivo").val().trim();
     richiesta.note = $("#editNote").val().trim();
     richiesta.lastUpdateBy = "" + lu.id;
 
-    let err=checkDatiObbligatori(richiesta);
+    let err = checkDatiObbligatori(richiesta);
 
     if (err != '') {
         alert(err);
@@ -227,24 +233,62 @@ var showElementUpdate = function (e, row) {
 
 var deleteElement = function (e, row) {
     var element = row.getData();
+    //console.log("Confermando cancellerai la scheda di:"+element.nome+" "+element.cognome+"\n"+element.codiceFiscale+"\n"+"Ricevuta il:"+element.dataRic);
     Swal.fire({
         title: 'Sicuro?',
-        text: "Confermando cancellerai la scheda di:"+element.nome+" "+element.cognome+"\n"+element.codiceFiscale+"\n"+"Ricevuta il:"+element.dataRic,
+        text: "Confermando cancellerai la scheda con id "+element.id+" di:" + element.nome + " " + element.cognome + "\n" + element.codiceFiscale + "\n" + "Ricevuta il:" + element.dataRic,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Annulla',
         confirmButtonText: 'Conferma'
-      }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-          )
+            let richiesta = {};
+            richiesta.id = element.id;
+            richiesta.deletedBy = "" + lu.id;
+
+            let xhr = new XMLHttpRequest();
+            let url = "be/deleteRequest.php";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            // xhr.setRequestHeader("richiesta", JSON.stringify(richiesta));
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    result = JSON.parse(xhr.responseText);
+                    if (result.status == "OK") {
+                        Swal.fire({
+                            text: "Operazione completata",
+                            icon: 'info',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Conferma'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();    
+                            }
+                        })
+                        
+                    } else {
+                        Swal.fire({
+                            text: "Impossibile cancellare la richiesta",
+                            icon: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Conferma'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();    
+                            }
+                        })
+                    }
+                }
+            }
+            xhr.send("richiesta=" + JSON.stringify(richiesta));
+
         }
-      })
+    })
 }
 
 function readRequests(toBeCompleted) {
@@ -310,8 +354,8 @@ var cellPopupFormatter = function (e, row, onRendered) {
     alert(data.note);
 };
 
-function checkDatiObbligatori(richiesta){
-    let out='';
+function checkDatiObbligatori(richiesta) {
+    let out = '';
     // if (richiesta.numero == '') {
     //     out += "Il numero della richiesta è obbligatorio\n";
     // }
@@ -319,7 +363,7 @@ function checkDatiObbligatori(richiesta){
         out += "Il codice fiscale è obbligatorio\n";
     }
     if (richiesta.dataRic == '') {
-      out += "La data è obbligatoria\n";
+        out += "La data è obbligatoria\n";
     }
     return out;
-    }
+}

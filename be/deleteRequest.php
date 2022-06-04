@@ -16,19 +16,9 @@
             $ric = new Richiesta();
             $ric->setId($tmp->id);
             $ric->getDetails();
-            $ric->setNome($tmp->nome);
-            $ric->setCognome($tmp->cognome);
-            $ric->setCodiceFiscale($tmp->codiceFiscale);
-            $ric->setEmail($tmp->email);
-            $ric->setDataRic($tmp->dataRic);
-            $ric->setDataUltimaComunicazione(($tmp->dataUltimaCom=="")?null:$tmp->dataUltimaCom);
-            $ric->setNumero($tmp->numero);
-            $ric->setFase($tmp->fase);
-            $ric->setMotivo($tmp->motivo);
-            $ric->setNote($tmp->note);
-            $ric->setLastUpdate((new DateTime())->format('Y-m-d H:i:s'));
-            $ric->setLastUpdateBy($tmp->lastUpdateBy);
-
+            $ric->setDeletedBy($tmp->deletedBy);
+            $ric->setDeletedDate((new DateTime())->format('Y-m-d H:i:s'));
+            $ric->setIsActive(false);
             $out=$ric->update();
             $ric->getDetails();
             $out->debug=print_r($ric,true);
@@ -38,3 +28,12 @@
         $out->error = $ex->getMessage();
     }
     print(json_encode($out));
+
+
+    /*
+
+    ALTER TABLE `richieste` ADD `deleteBy` INT NOT NULL AFTER `is_active`, ADD `deleteDate` DATETIME NOT NULL AFTER `deleteBy`, ADD INDEX (`deleteBy`); 
+    ALTER TABLE `richieste` CHANGE `deleteBy` `deleteBy` INT(11) NULL DEFAULT NULL; 
+    ALTER TABLE `richieste` CHANGE `deleteBy` `deleted_by` INT(11) NULL DEFAULT NULL; 
+    ALTER TABLE `richieste` CHANGE `deleted_date` `deleted_date` DATETIME NULL DEFAULT NULL; 
+    */

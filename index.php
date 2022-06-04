@@ -8,6 +8,7 @@
     <link href="css/tabulator.min.css" rel="stylesheet">
     <link href="css/tabulator_materialize.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sweetalert2.min.css">
     <script type="text/javascript" src="js/moment-with-locales.js"></script>
     <script type="text/javascript" src="js/luxon.min.js"></script>
     <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
@@ -20,7 +21,7 @@
     <script type="text/javascript" src="js/login.js"></script>
     <script type="text/javascript" src="js/insert.js"></script>
     <script type="text/javascript" src="js/edit.js"></script>
-    <script type="text/javascropt" src="js/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" src="js/sweetalert2.all.min.js"></script>
 
 </head>
 

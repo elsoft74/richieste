@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Mag 26, 2022 alle 18:56
+-- Creato il: Giu 04, 2022 alle 21:53
 -- Versione del server: 10.5.15-MariaDB-0+deb11u1
 -- Versione PHP: 7.4.28
 
@@ -42,8 +42,8 @@ CREATE TABLE `fasi` (
 
 CREATE TABLE `richieste` (
   `id` int(11) NOT NULL,
-  `nome` varchar(30) NOT NULL,
-  `cognome` varchar(30) NOT NULL,
+  `nome` varchar(60) NOT NULL,
+  `cognome` varchar(60) NOT NULL,
   `codicefiscale` varchar(16) NOT NULL,
   `email` varchar(50) NOT NULL,
   `numero` varchar(30) NOT NULL,
@@ -56,7 +56,9 @@ CREATE TABLE `richieste` (
   `created_by` int(11) NOT NULL,
   `last_update` timestamp NULL DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `is_active` tinyint(4) NOT NULL DEFAULT 1
+  `is_active` tinyint(4) NOT NULL DEFAULT 1,
+  `deleteBy` int(11) DEFAULT NULL,
+  `deleteDate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -106,7 +108,8 @@ ALTER TABLE `fasi`
 ALTER TABLE `richieste`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fase` (`fase`),
-  ADD KEY `updated_by` (`updated_by`);
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `deleteBy` (`deleteBy`);
 
 --
 -- Indici per le tabelle `roles`
