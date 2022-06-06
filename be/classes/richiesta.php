@@ -469,6 +469,9 @@ class Richiesta
         try {
             if ($this->getId() != null) {
                 // $out->fase = "post-try";
+                if ("0000-00-00 00:00:00" == $this->dataRic){
+                    $this->dataRic = null;
+                }
                 $conn = DB::conn();
                 if ($conn != null) {
                     try {
