@@ -39,7 +39,7 @@ function checkIfComplete() {
     if (toBeCompleted.fasi && toBeCompleted.richieste) {
         window.dispatchEvent(new CustomEvent("dataLoaded"));
     } else {
-        setTimeout(checkIfComplete, 1000);
+        setTimeout(checkIfComplete, 200);
     }
 }
 
@@ -52,7 +52,7 @@ function loadData() {
     richieste = [];
     getFasi(toBeCompleted);
     readRequests(toBeCompleted);
-    setTimeout(checkIfComplete, 1000);
+    setTimeout(checkIfComplete, 200);
 }
 
 function formattaData(data, lung) { // lung se impostato a true fa ottenere una data compresa dell'ora
