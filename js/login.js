@@ -13,7 +13,13 @@ function login() {
                 localStorage.setItem("loggeduser", JSON.stringify(lu));
                 location.reload();
             } else {
-                alert(result.error);
+                Swal.fire({
+                    text: result.error,
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Ok'
+                })
             }
         }
     }

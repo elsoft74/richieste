@@ -11,7 +11,13 @@ function getFasi(toBeCompleted) {
                 toBeCompleted.fasi = true;
                 fasi = result.data;
             } else {
-                alert("C'è un problema con il recupero dell'elenco delle fasi.");
+                Swal.fire({
+                    text: "C'è un problema con il recupero dell'elenco delle fasi.",
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Ok'
+                });
                 fasi = null;
             }
         }

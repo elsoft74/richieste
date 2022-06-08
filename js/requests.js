@@ -9,7 +9,7 @@ function showRequests(richieste, user) {
         addRowPos: "top",          //when adding a new row, add it to the top of the table
         history: true,             //allow undo and redo actions on the table
         pagination: "local",       //paginate the data
-        paginationSize: 8,         //allow 7 rows per page of data
+        paginationSize: 15,         //allow 7 rows per page of data
         paginationCounter: "rows", //display count of paginated rows in footer
         movableColumns: true,      //allow column order to be changed
         initialSort: [             //set the initial sort order of the data
@@ -88,8 +88,8 @@ function showRequests(richieste, user) {
                     return out;
                 }
             },
-            { title: "Motivo", field: "motivo", editor: false, formatter: "textarea" },
-            { title: "Note", field: "note", editor: false, formatter: "textarea"/*, cellClick: cellPopupFormatter */ },
+            { title: "Motivo", field: "motivo", editor: false/*, formatter: "textarea" */, cellClick: cellPopupFormatterMotivo },
+            { title: "Note", field: "note", editor: false/*, formatter: "textarea" */, cellClick: cellPopupFormatterNote },
             (user.permissions.canViewDetails) ?
                 {
                     title: "Creata",
@@ -150,7 +150,13 @@ function inserisci() {
     let err = checkDatiObbligatori(richiesta);
 
     if (err != '') {
-        alert(err);
+        Swal.fire({
+            text: err,
+            icon: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
     } else {
         let xhr = new XMLHttpRequest();
         let url = "be/insertRequest.php";
@@ -160,11 +166,26 @@ function inserisci() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 result = JSON.parse(xhr.responseText);
                 if (result.status == "OK") {
-                    alert("Richiesta inserita.");
-                    cleanInsert();
-                    location.reload();
+                    Swal.fire({
+                        text: "Operazione completata.",
+                        icon: 'info',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            cleanInsert();
+                            location.reload();
+                        }
+                    })
                 } else {
-                    alert("Impossibile inserire la richiesta.\n" + result.error);
+                    Swal.fire({
+                        text: "Impossibile completare l'operazione",
+                        icon: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok'
+                    })
                 }
             }
         }
@@ -190,7 +211,13 @@ function aggiorna() {
     let err = checkDatiObbligatori(richiesta);
 
     if (err != '') {
-        alert(err);
+        Swal.fire({
+            text: err,
+            icon: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
     } else {
 
         let xhr = new XMLHttpRequest();
@@ -202,17 +229,31 @@ function aggiorna() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 result = JSON.parse(xhr.responseText);
                 if (result.status == "OK") {
-                    cleanEdit();
-                    alert("Richiesta aggiornata.");
-                    location.reload();
+                    Swal.fire({
+                        text: "Operazione completata.",
+                        icon: 'info',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            cleanEdit();
+                            location.reload();
+                        }
+                    })
                 } else {
-                    alert("Impossibile aggiornare la richiesta.");
+                    Swal.fire({
+                        text: "Impossibile completare l'operazione",
+                        icon: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok'
+                    })
                 }
             }
         }
         xhr.send("richiesta=" + JSON.stringify(richiesta));
     }
-
 }
 
 var showElementUpdate = function (e, row) {
@@ -236,7 +277,7 @@ var deleteElement = function (e, row) {
     //console.log("Confermando cancellerai la scheda di:"+element.nome+" "+element.cognome+"\n"+element.codiceFiscale+"\n"+"Ricevuta il:"+element.dataRic);
     Swal.fire({
         title: 'Sicuro?',
-        text: "Confermando cancellerai la scheda con id "+element.id+" di:" + element.nome + " " + element.cognome + "\n" + element.codiceFiscale + "\n" + "Ricevuta il:" + element.dataRic,
+        text: "Confermando cancellerai la scheda con id " + element.id + " di:" + element.nome + " " + element.cognome + "\n" + element.codiceFiscale + "\n" + "Ricevuta il:" + element.dataRic,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -255,34 +296,26 @@ var deleteElement = function (e, row) {
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             // xhr.setRequestHeader("richiesta", JSON.stringify(richiesta));
             xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    result = JSON.parse(xhr.responseText);
-                    if (result.status == "OK") {
-                        Swal.fire({
-                            text: "Operazione completata",
-                            icon: 'info',
-                            showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Conferma'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();    
-                            }
-                        })
-                        
-                    } else {
-                        Swal.fire({
-                            text: "Impossibile cancellare la richiesta",
-                            icon: 'error',
-                            showCancelButton: false,
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Conferma'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();    
-                            }
-                        })
-                    }
+                if (result.status == "OK") {
+                    Swal.fire({
+                        text: "Operazione completata.",
+                        icon: 'info',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        text: "Impossibile completare l'operazione",
+                        icon: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok'
+                    })
                 }
             }
             xhr.send("richiesta=" + JSON.stringify(richiesta));
@@ -304,7 +337,13 @@ function readRequests(toBeCompleted) {
                 richieste = result.data;
                 toBeCompleted.richieste = true;
             } else {
-                alert("Impossibile recuperare l'elenco delle richieste.");
+                Swal.fire({
+                    text: "Impossibile recuperare l'elenco delle richieste.",
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Ok'
+                })
             }
         }
     }
@@ -339,19 +378,25 @@ var emptyHeaderFilter = function () {
     return document.createElement("div");;
 }
 
-var cellPopupFormatter = function (e, row, onRendered) {
+var cellPopupFormatterNote = function (e, row, onRendered) {
     var data = row.getData();
-    // container = document.createElement("div"),
-    // contents = "<strong style='font-size:1.2em;'>Note</strong><br/><ul style='padding:0;  margin-top:10px; margin-bottom:0;'>";
-    // contents += "<li><strong>Name:</strong> " + data.note + "</li>";
-    // // contents += "<li><strong>Gender:</strong> " + data.gender + "</li>";
-    // // contents += "<li><strong>Favourite Colour:</strong> " + data.col + "</li>";
-    // contents += "</ul>";
+    cellPopupFormatter("Note per: " + data.cognome + " " + data.nome, data.note);
+};
 
-    // container.innerHTML = contents;
+var cellPopupFormatterMotivo = function (e, row, onRendered) {
+    var data = row.getData();
+    cellPopupFormatter("Motivo per: " + data.cognome + " " + data.nome, data.motivo);
+};
 
-    // return container;
-    alert(data.note);
+var cellPopupFormatter = function (title, text) {
+    Swal.fire({
+        title: title,
+        text: text,
+        icon: 'info',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+    })
 };
 
 function checkDatiObbligatori(richiesta) {
@@ -366,4 +411,29 @@ function checkDatiObbligatori(richiesta) {
         out += "La data è obbligatoria\n";
     }
     return out;
+}
+
+function checkAndShowMessage(result) {
+    if (result.status == "OK") {
+        Swal.fire({
+            text: "Operazione completata.",
+            icon: 'info',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cleanEdit();
+                location.reload();
+            }
+        })
+    } else {
+        Swal.fire({
+            text: "Impossibile completare l'operazione",
+            icon: 'error',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
+    }
 }
