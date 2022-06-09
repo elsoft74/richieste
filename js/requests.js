@@ -296,6 +296,7 @@ var deleteElement = function (e, row) {
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             // xhr.setRequestHeader("richiesta", JSON.stringify(richiesta));
             xhr.onreadystatechange = function () {
+                result = JSON.parse(xhr.responseText);
                 if (result.status == "OK") {
                     Swal.fire({
                         text: "Operazione completata.",
@@ -319,7 +320,6 @@ var deleteElement = function (e, row) {
                 }
             }
             xhr.send("richiesta=" + JSON.stringify(richiesta));
-
         }
     })
 }

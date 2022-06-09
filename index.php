@@ -31,6 +31,7 @@
     <div id="insert"></div>
     <div id="login" class="sections"></div>
     <div id="edit"></div>
+    <div id="firma"><a href="https://ivopugliese.it">©2022 Ivo Pugliese</a></div>
     <script>
         // $(window).on('dataLoaded', function() {
         //     buildInsertForm("insert");
