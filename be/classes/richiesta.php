@@ -324,7 +324,7 @@ class Richiesta
         }
     }
 
-    public static function getRequestes($val)
+    public static function getRequestes($val,$lastRead)
     {
         //$val null o "A" restituisce tutte le richieste Attive
         //$val "T" restituisce tutte le richieste
@@ -342,10 +342,18 @@ class Richiesta
                     } else if ($val == "C") {
                         $query .= "WHERE `is_active` = 0 ";
                     }
+                    if($lastRead!=null){
+                        $query.=" AND (`created` >= :last_read1 OR `deleted_date` >= :last_read2 OR `last_update` >= :last_read3) ";
+                    }
 
-                    $query .= "ORDER BY data_ric, created, last_update";
+                    $query .= " ORDER BY data_ric, created, last_update";
 
                     $stmt = $conn->prepare($query);
+                    if($lastRead!=null){
+                        $stmt->bindParam(":last_read1",$lastRead,PDO::PARAM_STR);
+                        $stmt->bindParam(":last_read2",$lastRead,PDO::PARAM_STR);
+                        $stmt->bindParam(":last_read3",$lastRead,PDO::PARAM_STR);
+                    }
                     $stmt->execute();
 
                     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -362,6 +370,7 @@ class Richiesta
                     }
 
                     $out->status = "OK";
+                    $out->lastRead = (new DateTime("now"))->format("Y-m-d H:i");
                 } catch (Exception $ex) {
                     $out->error = $ex->getMessage();
                 }

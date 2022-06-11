@@ -28,6 +28,7 @@ function login() {
 
 function logout() {
     localStorage.removeItem("loggeduser");
+    localStorage.removeItem("lastRead");
     $("#username").val("");
     $("#password").val("");
     location.reload();

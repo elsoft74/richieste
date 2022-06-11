@@ -32,28 +32,7 @@
     <div id="login" class="sections"></div>
     <div id="edit"></div>
     <div id="firma"><a href="https://ivopugliese.it">©2022 Ivo Pugliese</a></div>
-    <script>
-        // $(window).on('dataLoaded', function() {
-        //     buildInsertForm("insert");
-        //     buildInsertForm("edit");
-        //     showMenu(lu);
-        //     showRequests(richieste, lu);
-        // })
-        // $(document).ready(function() {
-        //     lu = JSON.parse(localStorage.getItem("loggeduser"));
-        //     if (lu == null) {
-        //         if ($("#login").html() == "") {
-        //             buildLogin();
-        //             showLogin();
-        //         } else if(!$("#login").is(":visible")){
-        //             showLogin();
-        //         }
-        //     } else {
-        //         loadData();
-        //     }
-
-        // });
-        
+    <script>       
         if ($("#login").html() == "") {
             buildLogin();
         }
@@ -62,7 +41,8 @@
             buildEditForm("edit");
             showMenu(lu);
             showRequests(richieste, lu);
-        })
+        });
+        window.addEventListener('dataUpdated', updateTableData); 
         window.onload = function() {
             lu = JSON.parse(localStorage.getItem("loggeduser"));
             if (lu == null) {

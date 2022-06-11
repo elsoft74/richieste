@@ -5,7 +5,7 @@ function showRequests(richieste, user) {
         data: richieste,           //load row data from array
         layout: "fitColumns",      //fit columns to width of table
         responsiveLayout: "hide",  //hide columns that dont fit on the table
-        tooltips: true,            //show tool tips on cells
+        //tooltips: true,            //show tool tips on cells
         addRowPos: "top",          //when adding a new row, add it to the top of the table
         history: true,             //allow undo and redo actions on the table
         pagination: "local",       //paginate the data
@@ -132,6 +132,40 @@ function showRequests(richieste, user) {
 
 }
 
+function updateTableData() {
+    var table = Tabulator.findTable("#main")[0];
+    if (table != null || table != undefined) {
+        console.log("Scrivo i dati aggiornati");
+        table.updateData(richieste);
+        setTimeout(checkIfUpdated, 1000);
+    }
+}
+
+function checkIfAreUpdatedData() {
+    let xhr = new XMLHttpRequest();
+    let url = "be/getlastupdatetime.php";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            result = JSON.parse(xhr.responseText);
+            if (result.status == "OK") {
+                console.log("lu:" + result.data);
+                console.log("lr:" + localStorage.getItem("lastRead"));
+                var isChanged = (new Date(localStorage.getItem("lastRead")) - new Date(result.data)) < 0;
+                if (isChanged) {
+                    toBeCompleted.richieste = false;
+                    readRequests(toBeCompleted);
+                    setTimeout(checkIfUpdated, 1000);
+                } else {
+                    setTimeout(checkIfAreUpdatedData, 1000);
+                }
+            }
+        }
+    }
+    xhr.send("table=richieste");
+}
+
 
 function inserisci() {
     let richiesta = {};
@@ -175,7 +209,7 @@ function inserisci() {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             cleanInsert();
-                            location.reload();
+                            //location.reload();
                         }
                     })
                 } else {
@@ -224,7 +258,6 @@ function aggiorna() {
         let url = "be/updateRequest.php";
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        // xhr.setRequestHeader("richiesta", JSON.stringify(richiesta));
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 result = JSON.parse(xhr.responseText);
@@ -238,7 +271,7 @@ function aggiorna() {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             cleanEdit();
-                            location.reload();
+                            //location.reload();
                         }
                     })
                 } else {
@@ -274,7 +307,6 @@ var showElementUpdate = function (e, row) {
 
 var deleteElement = function (e, row) {
     var element = row.getData();
-    //console.log("Confermando cancellerai la scheda di:"+element.nome+" "+element.cognome+"\n"+element.codiceFiscale+"\n"+"Ricevuta il:"+element.dataRic);
     Swal.fire({
         title: 'Sicuro?',
         text: "Confermando cancellerai la scheda con id " + element.id + " di:" + element.nome + " " + element.cognome + "\n" + element.codiceFiscale + "\n" + "Ricevuta il:" + element.dataRic,
@@ -294,7 +326,6 @@ var deleteElement = function (e, row) {
             let url = "be/deleteRequest.php";
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            // xhr.setRequestHeader("richiesta", JSON.stringify(richiesta));
             xhr.onreadystatechange = function () {
                 result = JSON.parse(xhr.responseText);
                 if (result.status == "OK") {
@@ -306,7 +337,7 @@ var deleteElement = function (e, row) {
                         confirmButtonText: 'Ok'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            location.reload();
+                            //location.reload();
                         }
                     })
                 } else {
@@ -336,6 +367,8 @@ function readRequests(toBeCompleted) {
             if (result.status == "OK") {
                 richieste = result.data;
                 toBeCompleted.richieste = true;
+                localStorage.setItem("lastRead", result.lastRead);
+                setTimeout(checkIfAreUpdatedData, 1000);
             } else {
                 Swal.fire({
                     text: "Impossibile recuperare l'elenco delle richieste.",
@@ -347,7 +380,8 @@ function readRequests(toBeCompleted) {
             }
         }
     }
-    xhr.send();
+    //xhr.send();
+    xhr.send("lastRead="+localStorage.getItem("lastRead"));
 }
 
 //create header popup contents
@@ -424,7 +458,7 @@ function checkAndShowMessage(result) {
         }).then((result) => {
             if (result.isConfirmed) {
                 cleanEdit();
-                location.reload();
+                //location.reload();
             }
         })
     } else {

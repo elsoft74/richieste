@@ -43,6 +43,16 @@ function checkIfComplete() {
     }
 }
 
+function checkIfUpdated() {
+    if (toBeCompleted.richieste) {
+        console.log("Aggiorno");
+        window.dispatchEvent(new CustomEvent("dataUpdated"));
+    } else {
+        console.log("Aggiornamenti non ancora pronti");
+        setTimeout(checkIfUpdated, 200);
+    }
+}
+
 function loadData() {
     toBeCompleted = {
         fasi: false,

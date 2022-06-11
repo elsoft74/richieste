@@ -6,4 +6,5 @@
     include_once("classes/db.php");
     include_once("classes/user.php");
     include_once("classes/richiesta.php");
-    print(json_encode(Richiesta::getRequestes("A")));
+    $lastRead=(array_key_exists("lastRead",$_POST))?$_POST["lastRead"]:null;
+    print(json_encode(Richiesta::getRequestes("A",$lastRead)));
