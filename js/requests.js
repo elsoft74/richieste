@@ -136,7 +136,7 @@ function updateTableData() {
     var table = Tabulator.findTable("#main")[0];
     if (table != null || table != undefined) {
         console.log("Scrivo i dati aggiornati");
-        table.updateData(richieste);
+        table.updateOrAddData(richieste);
         setTimeout(checkIfUpdated, 1000);
     }
 }
@@ -337,7 +337,7 @@ var deleteElement = function (e, row) {
                         confirmButtonText: 'Ok'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            //location.reload();
+                            loc1ation.reload();
                         }
                     })
                 } else {
