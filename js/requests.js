@@ -137,6 +137,11 @@ function updateTableData() {
     if (table != null || table != undefined) {
         console.log("Scrivo i dati aggiornati");
         table.updateOrAddData(richieste);
+        var deleted=localStorage.getItem("deleted");
+        if(deleted != null || deleted!=undefined){
+            table.deleteRow(deleted);
+            localStorage.removeItem("deleted");
+        }
         setTimeout(checkIfUpdated, 1000);
     }
 }
@@ -335,11 +340,11 @@ var deleteElement = function (e, row) {
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Ok'
-                    }).then((result) => {
+                    })/*.then((result) => {
                         if (result.isConfirmed) {
                             loc1ation.reload();
                         }
-                    })
+                    })*/
                 } else {
                     Swal.fire({
                         text: "Impossibile completare l'operazione",
@@ -368,6 +373,9 @@ function readRequests(toBeCompleted) {
                 richieste = result.data;
                 toBeCompleted.richieste = true;
                 localStorage.setItem("lastRead", result.lastRead);
+                if (result.hasOwnProperty("deleted")){
+                    localStorage.setItem("deleted",result.deleted);
+                }
                 setTimeout(checkIfAreUpdatedData, 1000);
             } else {
                 Swal.fire({

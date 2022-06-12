@@ -343,7 +343,7 @@ class Richiesta
                         $query .= "WHERE `is_active` = 0 ";
                     }
                     if($lastRead!=null){
-                        $query.=" AND (`created` >= :last_read1 OR `deleted_date` >= :last_read2 OR `last_update` >= :last_read3) ";
+                        $query.=" AND (`created` >= :last_read1 OR `last_update` >= :last_read2) ";
                     }
 
                     $query .= " ORDER BY data_ric, created, last_update";
@@ -352,7 +352,6 @@ class Richiesta
                     if($lastRead!=null){
                         $stmt->bindParam(":last_read1",$lastRead,PDO::PARAM_STR);
                         $stmt->bindParam(":last_read2",$lastRead,PDO::PARAM_STR);
-                        $stmt->bindParam(":last_read3",$lastRead,PDO::PARAM_STR);
                     }
                     $stmt->execute();
 
@@ -367,6 +366,18 @@ class Richiesta
                         $tmp->setId($r["id"]);
                         $tmp->getDetails();
                         array_push($out->data, $tmp);
+                    }
+
+                    if($lastRead!=null){
+                        $query = "SELECT id FROM `richieste` WHERE `is_active` = 0 AND `deleted_date` >= :last_read";
+                        $stmt = $conn->prepare($query);
+                        $stmt->bindParam(":last_read",$lastRead,PDO::PARAM_STR);
+                        $stmt->execute();
+                        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        $out->deleted = [];
+                        foreach ($res as $r) {
+                            array_push($out->deleted, $r["id"]);
+                        }
                     }
 
                     $out->status = "OK";
