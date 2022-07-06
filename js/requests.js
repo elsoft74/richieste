@@ -32,7 +32,7 @@ function showRequests(richieste, user) {
             { title: "Nome", field: "nome", editor: false },
             { title: "Cognome", field: "cognome", editor: false, headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
             { title: "Codice Fiscale", field: "codiceFiscale", editor: false, hozAlign: "center", headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
-            { title: "e-mail", field: "email", editor: false },
+            { title: "e-mail", field: "email", editor: false, headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
             { title: "Numero Richiesta", field: "numero", editor: false, hozAlign: "center", headerPopup: headerPopupFormatter, headerPopupIcon: '<span class="material-symbols-outlined">filter_alt</span>', headerFilter: emptyHeaderFilter, headerFilterFunc: "like" },
             {
                 title: "Data", columns: [
@@ -361,6 +361,14 @@ var deleteElement = function (e, row) {
 }
 
 function readRequests(toBeCompleted) {
+    var table = Tabulator.findTable("#main")[0];
+    var rowCount = 0;
+    if(table!=null && table!=undefined) {
+        rowCount = table.getDataCount();
+    }
+    if (rowCount==0){
+        localStorage.setItem("lastRead",null);
+    }
     let xhr = new XMLHttpRequest();
     let url = "be/getrequests.php";
     xhr.open("POST", url, true);
