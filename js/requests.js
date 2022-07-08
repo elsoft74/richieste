@@ -133,6 +133,7 @@ function showRequests(richieste, user) {
 }
 
 function updateTableData() {
+    /*
     var table = Tabulator.findTable("#main")[0];
     if (table != null || table != undefined) {
         console.log("Scrivo i dati aggiornati");
@@ -144,9 +145,11 @@ function updateTableData() {
         }
         setTimeout(checkIfUpdated, 1000);
     }
+    */
 }
 
 function checkIfAreUpdatedData() {
+    /*
     let xhr = new XMLHttpRequest();
     let url = "be/getlastupdatetime.php";
     xhr.open("POST", url, true);
@@ -169,6 +172,7 @@ function checkIfAreUpdatedData() {
         }
     }
     xhr.send("table=richieste");
+    */
 }
 
 

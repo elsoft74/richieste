@@ -42,7 +42,7 @@
             showMenu(lu);
             showRequests(richieste, lu);
         });
-        window.addEventListener('dataUpdated', updateTableData); 
+        //window.addEventListener('dataUpdated', updateTableData); 
         window.onload = function() {
             lu = JSON.parse(localStorage.getItem("loggeduser"));
             if (lu == null) {
