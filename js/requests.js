@@ -214,7 +214,7 @@ function inserisci() {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             cleanInsert();
-                            //location.reload();
+                            location.reload();
                         }
                     })
                 } else {
@@ -276,7 +276,7 @@ function aggiorna() {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             cleanEdit();
-                            //location.reload();
+                            location.reload();
                         }
                     })
                 } else {
@@ -340,11 +340,11 @@ var deleteElement = function (e, row) {
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Ok'
-                    })/*.then((result) => {
+                    }).then((result) => {
                         if (result.isConfirmed) {
                             loc1ation.reload();
                         }
-                    })*/
+                    })
                 } else {
                     Swal.fire({
                         text: "Impossibile completare l'operazione",
@@ -474,7 +474,7 @@ function checkAndShowMessage(result) {
         }).then((result) => {
             if (result.isConfirmed) {
                 cleanEdit();
-                //location.reload();
+                location.reload();
             }
         })
     } else {

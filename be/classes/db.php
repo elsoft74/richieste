@@ -35,6 +35,7 @@
                     $stmt->execute();
                     $res=$stmt->fetch(PDO::FETCH_ASSOC);
                     $out->data=$res["UPDATE_TIME"];
+                    $out->data="1970-01-01 00:00:00";
                     $out->status="OK";
                 } catch(Exception $ex){
                         $out->error=$ex->getMessage();
