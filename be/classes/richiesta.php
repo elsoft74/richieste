@@ -342,16 +342,18 @@ class Richiesta
                     } else if ($val == "C") {
                         $query .= "WHERE `is_active` = 0 ";
                     }
+                    
                     if($lastRead!=null){
                         $query.=" AND (`created` >= :last_read1 OR `last_update` >= :last_read2) ";
                     }
+                    
 
                     $query .= " ORDER BY data_ric, created, last_update";
 
                     $stmt = $conn->prepare($query);
                     if($lastRead!=null){
-                        $stmt->bindParam(":last_read1",$lastRead,PDO::PARAM_STR);
-                        $stmt->bindParam(":last_read2",$lastRead,PDO::PARAM_STR);
+                    //    $stmt->bindParam(":last_read1",$lastRead,PDO::PARAM_STR);
+                    //    $stmt->bindParam(":last_read2",$lastRead,PDO::PARAM_STR);
                     }
                     $stmt->execute();
 
