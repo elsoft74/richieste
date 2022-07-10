@@ -133,7 +133,6 @@ function showRequests(richieste, user) {
 }
 
 function updateTableData() {
-    /*
     var table = Tabulator.findTable("#main")[0];
     if (table != null || table != undefined) {
         console.log("Scrivo i dati aggiornati");
@@ -145,11 +144,9 @@ function updateTableData() {
         }
         setTimeout(checkIfUpdated, 1000);
     }
-    */
 }
 
 function checkIfAreUpdatedData() {
-    /*
     let xhr = new XMLHttpRequest();
     let url = "be/getlastupdatetime.php";
     xhr.open("POST", url, true);
@@ -172,7 +169,6 @@ function checkIfAreUpdatedData() {
         }
     }
     xhr.send("table=richieste");
-    */
 }
 
 
@@ -218,7 +214,7 @@ function inserisci() {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             cleanInsert();
-                            location.reload();
+                            //location.reload();
                         }
                     })
                 } else {
@@ -280,7 +276,7 @@ function aggiorna() {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             cleanEdit();
-                            location.reload();
+                            //location.reload();
                         }
                     })
                 } else {
@@ -344,11 +340,11 @@ var deleteElement = function (e, row) {
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Ok'
-                    }).then((result) => {
+                    })/*.then((result) => {
                         if (result.isConfirmed) {
-                            loc1ation.reload();
+                            location.reload();
                         }
-                    })
+                    })*/
                 } else {
                     Swal.fire({
                         text: "Impossibile completare l'operazione",
@@ -478,7 +474,7 @@ function checkAndShowMessage(result) {
         }).then((result) => {
             if (result.isConfirmed) {
                 cleanEdit();
-                location.reload();
+                //location.reload();
             }
         })
     } else {

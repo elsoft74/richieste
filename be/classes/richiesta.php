@@ -352,8 +352,8 @@ class Richiesta
 
                     $stmt = $conn->prepare($query);
                     if($lastRead!=null){
-                    //    $stmt->bindParam(":last_read1",$lastRead,PDO::PARAM_STR);
-                    //    $stmt->bindParam(":last_read2",$lastRead,PDO::PARAM_STR);
+                        $stmt->bindParam(":last_read1",$lastRead,PDO::PARAM_STR);
+                        $stmt->bindParam(":last_read2",$lastRead,PDO::PARAM_STR);
                     }
                     $stmt->execute();
 
